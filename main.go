@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -10,9 +11,12 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
+	"syscall"
 	"time"
 )
 
@@ -28,6 +32,7 @@ func main() {
 	if err := os.MkdirAll(proxy.cacheDir, 0o755); err != nil {
 		log.Fatalf("cannot create cache dir %s: %v", proxy.cacheDir, err)
 	}
+	proxy.sweepTemp() // drop partial writes left by a previous crash
 
 	fileServer := http.FileServer(http.Dir(docsDir))
 
@@ -45,9 +50,33 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	log.Printf("serving %s at %s (GET /data/<tool>.toml, /tools/<name>.gz; /api/github/* -> %s cached in %s, ttl %s)",
-		docsDir, addr, proxy.upstream, proxy.cacheDir, proxy.ttl)
-	log.Fatal(http.ListenAndServe(addr, logRequests(mux)))
+	srv := &http.Server{
+		Addr:              addr,
+		Handler:           logRequests(mux),
+		ReadHeaderTimeout: 10 * time.Second, // bound slow-header (slowloris) clients
+		IdleTimeout:       120 * time.Second,
+	}
+
+	// Serve until SIGINT/SIGTERM, then drain in-flight requests gracefully.
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		log.Printf("serving %s at %s (GET /data/<tool>.toml, /tools/<name>.gz; /api/github/* -> %s cached in %s, ttl %s)",
+			docsDir, addr, proxy.upstream, proxy.cacheDir, proxy.ttl)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("server error: %v", err)
+		}
+	}()
+
+	<-ctx.Done()
+	stop()
+	log.Println("shutting down")
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		log.Printf("graceful shutdown failed: %v", err)
+	}
 }
 
 // statusRecorder captures the response status code so the request log can
@@ -135,6 +164,9 @@ type githubProxy struct {
 	cacheDir string
 	ttl      time.Duration
 	client   *http.Client
+
+	mu    sync.Mutex             // guards locks
+	locks map[string]*sync.Mutex // one lock per cache key, to collapse duplicate misses
 }
 
 func newGitHubProxy(upstream, cacheDir string, ttl time.Duration) *githubProxy {
@@ -143,6 +175,33 @@ func newGitHubProxy(upstream, cacheDir string, ttl time.Duration) *githubProxy {
 		cacheDir: cacheDir,
 		ttl:      ttl,
 		client:   &http.Client{Timeout: 30 * time.Second},
+		locks:    make(map[string]*sync.Mutex),
+	}
+}
+
+// keyLock returns the mutex for a cache key, creating it on first use. Holding it
+// while fetching/writing collapses a burst of concurrent misses for the same key
+// (common during parallel warming) into a single upstream request.
+func (p *githubProxy) keyLock(key string) *sync.Mutex {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	l, ok := p.locks[key]
+	if !ok {
+		l = &sync.Mutex{}
+		p.locks[key] = l
+	}
+	return l
+}
+
+// sweepTemp removes stray atomicWrite temp files (from an interrupted write) so
+// they don't linger in the cache dir or get packaged into a published bundle.
+func (p *githubProxy) sweepTemp() {
+	matches, _ := filepath.Glob(filepath.Join(p.cacheDir, ".tmp-*"))
+	for _, m := range matches {
+		os.Remove(m)
+	}
+	if len(matches) > 0 {
+		log.Printf("removed %d stale temp file(s) from %s", len(matches), p.cacheDir)
 	}
 }
 
@@ -173,6 +232,16 @@ func (p *githubProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// Fresh cache: serve straight from disk, no network at all.
 	if cached && p.fresh(meta) {
+		p.serve(w, r, meta, body, "HIT")
+		return
+	}
+
+	// Serialize concurrent misses for this key so only one goroutine hits the
+	// upstream; the rest re-read the cache the winner just populated.
+	lock := p.keyLock(key)
+	lock.Lock()
+	defer lock.Unlock()
+	if meta, body, cached = loadCache(metaPath, bodyPath); cached && p.fresh(meta) {
 		p.serve(w, r, meta, body, "HIT")
 		return
 	}
