@@ -120,19 +120,26 @@ proxy), merges the two caches, and uploads `docs/ + cache/ + MANIFEST.json` as a
   all arches); only `.../attestations/<digest>` is arch-specific, hence the amd64+arm64
   matrix. Merge is a plain copy — shared entries share a `sha256` key.
 
-**Consuming the bundle** — download and serve it; no rebuild needed:
+**Consuming the bundle.** Easiest is the Docker image — its `Dockerfile` fetches the
+`cache-latest` bundle and bakes `docs/` + the warmed `cache/` in, so the container is a
+self-contained mirror:
+```bash
+docker build --no-cache -t mise-versions-local .   # --no-cache to pull the newest bundle
+docker run -p 8080:8080 mise-versions-local
+```
+Or extract and serve it directly:
 ```bash
 curl -fsSL -o bundle.tar.zst \
   https://github.com/<owner>/mise-versions-local/releases/download/cache-latest/mise-versions-bundle.tar.zst
 mkdir bundle && tar --zstd -xf bundle.tar.zst -C bundle
-DOCS_DIR=bundle/docs CACHE_DIR=bundle/cache go run .   # or the Docker image with these mounted
+DOCS_DIR=bundle/docs CACHE_DIR=bundle/cache go run .
 ```
 Stale bundle entries revalidate against the upstream on use and fall back to the bundled
 copy when offline — the same `HIT`/`STALE` behaviour described above.
 
-> **Prerequisite:** this repo has no git remote yet. Push it to GitHub and enable Actions
-> for the schedule to run; the workflow needs `contents: write` (already declared) to
-> publish the release.
+> The workflow needs `contents: write` (already declared) to publish the release. To warm
+> the latest N versions of the github-release tools on the schedule, set a `VERSIONS` repo
+> variable (e.g. `10`); core tools stay at 1 (see `tools.txt`).
 
 ## Verify
 

@@ -3,10 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # DOCS_DIR, CACHE_DIR, and ADDR are baked into the image (see Dockerfile);
+    # override CACHE_TTL/UPSTREAM here if you want non-default proxy behavior.
     environment:
-      DOCS_DIR: /app/docs
-      ADDR: 0.0.0.0:8080
-      CACHE_DIR: /app/cache
       # How long a cached /api/github entry is served before revalidating with
       # the upstream. Upstream max-age overrides this per-response when present.
       CACHE_TTL: 1h
@@ -15,10 +14,11 @@ services:
       UPSTREAM: https://mise-versions.jdx.dev
     ports:
       - 8080:8080
-    volumes:
-      # Persist the /api/github cache on the host so it survives rebuilds and
-      # can be copied to another machine. The server reuses whatever it finds.
-      - ./cache:/app/cache
+    # No cache bind mount: the image already ships a warmed /api/github cache at
+    # /app/cache, and a host bind mount would shadow it. To persist runtime
+    # revalidations while keeping the baked entries, use a named volume instead
+    # (seeded from the image on first run):
+    #   volumes: [cache:/app/cache]   # + a top-level `volumes: { cache: {} }`
     develop:
       watch:
         - path: main.go

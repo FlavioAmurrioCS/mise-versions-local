@@ -1,33 +1,49 @@
+# syntax=docker/dockerfile:1
 
-FROM golang:1.26-bookworm AS downloader
-
-ARG MISE_VERSIONS_COMMIT=574afbdd9b4397d4c28f4306d1fb83815ad6b448
-# ADD https://github.com/jdx/mise-versions/archive/refs/heads/main.zip /main.zip
-ADD https://github.com/jdx/mise-versions/archive/${MISE_VERSIONS_COMMIT}.zip /main.zip
-
+# Fetch the pre-warmed bundle (docs/ + cache/ + MANIFEST.json) that the
+# warm-cache workflow publishes to the rolling `cache-latest` release. This
+# replaces downloading the raw mise-versions docs at a pinned commit — the
+# bundle already contains the docs plus a warmed /api/github cache.
+#
+# `cache-latest` is a rolling tag, so build with `--no-cache` (or bump
+# BUNDLE_REF) to pick up a newer bundle.
+FROM debian:bookworm-slim AS bundle
+ARG BUNDLE_REPO=FlavioAmurrioCS/mise-versions-local
+ARG BUNDLE_REF=cache-latest
+ADD https://github.com/${BUNDLE_REPO}/releases/download/${BUNDLE_REF}/mise-versions-bundle.tar.zst /bundle.tar.zst
 RUN \
     : \
-    && apt update \
-    && apt install -y unzip \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends zstd \
     && mkdir -p /app \
-    && cd /app \
-    && unzip /main.zip \
-    && mv /app/mise-versions-${MISE_VERSIONS_COMMIT} /app/mise-versions \
+    && tar --zstd -xf /bundle.tar.zst -C /app \
+    && rm /bundle.tar.zst \
     && :
 
 
 FROM golang:1.26-bookworm AS builder
 
-RUN mkdir -p /app
-
-WORKDIR /app
-
-COPY --from=downloader /app/mise-versions/docs /app/docs
+ENV CGO_ENABLED=0
 
 RUN \
     --mount=type=bind,source=main.go,target=/tmp/main.go \
     : \
-    && go build -o /app/mise-versions-local /tmp/main.go \
+    && go build -o /mise-versions-local /tmp/main.go \
     && :
 
-ENTRYPOINT ["/app/mise-versions-local"]
+
+# Minimal runtime: static binary + baked docs and warmed cache. distroless/static
+# ships CA certs, so the /api/github proxy can still reach the upstream on a miss.
+FROM gcr.io/distroless/static-debian12
+
+COPY --from=builder /mise-versions-local /mise-versions-local
+COPY --from=bundle /app/docs /app/docs
+COPY --from=bundle /app/cache /app/cache
+COPY --from=bundle /app/MANIFEST.json /app/MANIFEST.json
+
+ENV DOCS_DIR=/app/docs \
+    CACHE_DIR=/app/cache \
+    ADDR=0.0.0.0:8080
+
+EXPOSE 8080
+ENTRYPOINT ["/mise-versions-local"]

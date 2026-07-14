@@ -22,7 +22,10 @@ DOCS_DIR=/path/to/jdx/mise-versions/docs mise x go@1.26.4 -- go run .
 # or plain `go run .` if you have a go version selected
 ```
 
-Docker (bakes a pinned mise-versions commit into the image — bump `MISE_VERSIONS_COMMIT` in the Dockerfile to update the data):
+Docker bakes the pre-warmed release bundle (`docs/` + warmed `/api/github` `cache/`)
+from the rolling `cache-latest` GitHub release, so the image is a self-contained,
+offline-capable mirror. `cache-latest` is a rolling tag — build with `--no-cache` (or bump
+the `BUNDLE_REF`/`BUNDLE_REPO` build args) to pull a newer bundle:
 
 ```bash
 docker compose up --build   # supports `docker compose watch` (rebuilds on main.go change)
