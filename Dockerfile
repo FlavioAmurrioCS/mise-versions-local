@@ -24,11 +24,15 @@ RUN \
 FROM golang:1.26-bookworm AS builder
 
 ENV CGO_ENABLED=0
+WORKDIR /src
 
+# Build the whole module (not a single file) so adding sources/deps never
+# silently breaks the image. .dockerignore keeps the context lean.
 RUN \
-    --mount=type=bind,source=main.go,target=/tmp/main.go \
+    --mount=type=bind,target=/src \
+    --mount=type=cache,target=/root/.cache/go-build \
     : \
-    && go build -o /mise-versions-local /tmp/main.go \
+    && go build -o /mise-versions-local . \
     && :
 
 
