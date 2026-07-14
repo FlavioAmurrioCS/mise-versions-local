@@ -15,6 +15,7 @@
 #   CACHE_DIR    where the proxy writes its cache (default: <repo>/cache)
 #   TOOLS_FILE   the tool list                          (default: <repo>/tools.txt)
 #   VERSIONS     latest-N versions to warm per bare tool (default: 1)
+#   INSTALL_TIMEOUT  cap on the whole install step, e.g. 45m (default: 45m)
 #   ADDR         address the server listens on          (default: 127.0.0.1:8080)
 #   GITHUB_TOKEN optional; lifts mise's direct api.github.com calls to 5000/hr
 set -euo pipefail
@@ -38,9 +39,17 @@ server_bin="$(mktemp -d)/mvl"
 ( cd "$repo_root" && go build -o "$server_bin" . )
 
 echo ">> starting server on $addr (docs=$DOCS_DIR cache=$cache_dir)"
-DOCS_DIR="$DOCS_DIR" CACHE_DIR="$cache_dir" ADDR="$addr" "$server_bin" &
+# Redirect server output to a file: keeps request logs out of the way and, in CI,
+# stops the backgrounded process from holding the step's stdout pipe open.
+server_log="$(mktemp)"
+DOCS_DIR="$DOCS_DIR" CACHE_DIR="$cache_dir" ADDR="$addr" "$server_bin" >"$server_log" 2>&1 &
 server_pid=$!
-cleanup() { kill "$server_pid" 2>/dev/null || true; wait "$server_pid" 2>/dev/null || true; }
+cleanup() {
+	kill "$server_pid" 2>/dev/null || true
+	wait "$server_pid" 2>/dev/null || true
+	echo ">> server log (last 20 lines):"
+	tail -n 20 "$server_log" 2>/dev/null || true
+}
 trap cleanup EXIT
 
 for _ in $(seq 1 40); do
@@ -56,6 +65,11 @@ curl -sf -o /dev/null "http://$addr/health" || { echo "error: server did not bec
 MISE_DATA_DIR="$(mktemp -d)"; export MISE_DATA_DIR
 MISE_CACHE_DIR="$(mktemp -d)"; export MISE_CACHE_DIR
 MISE_CONFIG_DIR="$(mktemp -d)"; export MISE_CONFIG_DIR
+export MISE_YES=1 # never block on an interactive prompt
+# Private GnuPG home: node verifies its checksums with gpg. Keep that keyring off
+# the host, and never warm >1 core-tool version in parallel (see tools.txt) —
+# concurrent gpg key imports into one keyring deadlock ("waiting for lock").
+GNUPGHOME="$(mktemp -d)"; chmod 700 "$GNUPGHOME"; export GNUPGHOME
 # shellcheck disable=SC2089  # JSON literal; the quotes are meant literally
 export MISE_URL_REPLACEMENTS="{ \"https://mise-versions.jdx.dev\": \"http://$addr\" }"
 workdir="$(mktemp -d)"
@@ -92,8 +106,16 @@ done <"$tools_file"
 install_list="${install_list# }"
 
 echo ">> installing: $install_list"
-# shellcheck disable=SC2086  # intentional word-splitting of the spec list
-( cd "$workdir" && mise install -v $install_list ) || echo ">> WARN: some tools failed to install (continuing)"
+install_status=0
+if command -v timeout >/dev/null 2>&1; then
+	# shellcheck disable=SC2086  # intentional word-splitting of the spec list
+	( cd "$workdir" && timeout "${INSTALL_TIMEOUT:-45m}" mise install -v $install_list ) || install_status=$?
+else
+	# shellcheck disable=SC2086
+	( cd "$workdir" && mise install -v $install_list ) || install_status=$?
+fi
+[ "$install_status" -eq 0 ] ||
+	echo ">> WARN: install exited $install_status (timeout or tool failure); continuing with whatever warmed"
 
 entries="$(find "$cache_dir" -name '*.meta' | wc -l | tr -d ' ')"
 echo ">> done: $entries cached /api/github entries in $cache_dir"

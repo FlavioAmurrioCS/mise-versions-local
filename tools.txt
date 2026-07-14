@@ -7,7 +7,22 @@
 #   name@version    that exact version         (e.g. jq@1.8.2)
 #   name COUNT      latest COUNT versions      (e.g. jq 10)
 # List a tool on multiple lines to warm several specific versions.
-node
+#
+# NOTE: multi-version warming only helps GitHub-release tools (they populate the
+# /api/github cache). Core tools (node/go/java/bun/python) and npm/pipx tools
+# fetch from their own mirrors, so warming many versions of them is wasted work —
+# and installing several `node` versions at once deadlocks on gpg. Those are
+# pinned to `<name> 1` below; the GitHub-release tools honour $VERSIONS.
+
+# --- core / non-github: 1 version only (no /api/github benefit; node gpg-locks
+#     if installed in parallel) ---
+node 1
+go 1
+java 1
+bun 1
+markdownlint-cli2 1
+prettier 1
+yamllint 1
 python@3.8
 python@3.9
 python@3.10
@@ -16,24 +31,20 @@ python@3.12
 python@3.13
 python@3.14
 python@3.15
+
+# --- github-release tools: warm latest $VERSIONS ---
 uv
-go
 pnpm
-bun
 gh
 jq
 yq
 shellcheck
-java
 actionlint
 ripgrep
 fd
 terraform
 pre-commit
 fzf
-markdownlint-cli2
-prettier
-yamllint
 hadolint
 watchexec
 bat
