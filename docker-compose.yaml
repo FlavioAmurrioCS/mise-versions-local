@@ -1,0 +1,33 @@
+services:
+  mise-versions:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DOCS_DIR: /app/docs
+      ADDR: 0.0.0.0:8080
+      CACHE_DIR: /app/cache
+      # How long a cached /api/github entry is served before revalidating with
+      # the upstream. Upstream max-age overrides this per-response when present.
+      CACHE_TTL: 1h
+      # Real host to mirror /api/github/* from (a CDN cache, so no GitHub rate
+      # limit and no token needed).
+      UPSTREAM: https://mise-versions.jdx.dev
+    ports:
+      - 8080:8080
+    volumes:
+      # Persist the /api/github cache on the host so it survives rebuilds and
+      # can be copied to another machine. The server reuses whatever it finds.
+      - ./cache:/app/cache
+    develop:
+      watch:
+        - path: main.go
+          action: rebuild
+
+  # mise-tester:
+  #   image: jdxcode/mise
+  #   entrypoint: mise use uv -v
+  #   environment:
+  #     MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://mise-versions:8080" }'
+  #   depends_on:
+  #     - mise-versions

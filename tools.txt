@@ -1,0 +1,40 @@
+# Tools warmed by scripts/warm-cache.sh (and the warm-cache GitHub workflow).
+# Installing these against the local server populates the /api/github disk cache
+# that ships in the release bundle. Blank lines and # comments are ignored.
+#
+# Per line:
+#   name            latest $VERSIONS versions (VERSIONS defaults to 1)
+#   name@version    that exact version         (e.g. jq@1.8.2)
+#   name COUNT      latest COUNT versions      (e.g. jq 10)
+# List a tool on multiple lines to warm several specific versions.
+node
+python@3.8
+python@3.9
+python@3.10
+python@3.11
+python@3.12
+python@3.13
+python@3.14
+python@3.15
+uv
+go
+pnpm
+bun
+gh
+jq
+yq
+shellcheck
+java
+actionlint
+ripgrep
+fd
+terraform
+pre-commit
+fzf
+markdownlint-cli2
+prettier
+yamllint
+hadolint
+watchexec
+bat
+eza
