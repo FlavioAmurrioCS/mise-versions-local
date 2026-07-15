@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Warm the /api/github disk cache by installing a list of tools against a local
-# instance of this server. mise resolves each tool through the server, whose
-# proxy caches the upstream /api/github responses into CACHE_DIR as
-# <sha256>.meta/.body pairs. Runnable locally and from the warm-cache workflow.
+# Warm the /api/github cache by installing a list of tools against a local
+# instance of this server. mise resolves each tool through the server, which
+# records the upstream /api/github responses into CACHE_DIR as a path-mirrored
+# tree (api/github/repos/.../latest + .meta). Runnable locally and from the
+# warm-cache workflow.
 #
 # TOOLS_FILE format (one entry per line; blank lines and # comments ignored):
 #   name             -> latest $VERSIONS versions       (e.g. `jq`)
@@ -12,7 +13,7 @@
 #
 # Env:
 #   DOCS_DIR     (required) a mise-versions docs/ directory to serve /data + /tools from
-#   CACHE_DIR    where the proxy writes its cache (default: <repo>/cache)
+#   CACHE_DIR    tree root the proxy records into (default: <repo>/cache)
 #   TOOLS_FILE   the tool list                          (default: <repo>/tools.txt)
 #   VERSIONS     latest-N versions to warm per bare tool (default: 1)
 #   INSTALL_TIMEOUT  cap on the whole install step, e.g. 45m (default: 45m)

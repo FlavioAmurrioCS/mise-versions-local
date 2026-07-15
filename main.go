@@ -2,14 +2,14 @@ package main
 
 import (
 	"compress/gzip"
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -19,14 +19,13 @@ import (
 func main() {
 	docsDir := envOr("DOCS_DIR", "docs")
 	addr := envOr("ADDR", ":8080")
+	upstream := envOr("UPSTREAM", "https://mise-versions.jdx.dev")
+	cacheDir := envOr("CACHE_DIR", "cache")
+	ttl := envDuration("CACHE_TTL", time.Hour)
 
-	proxy := newGitHubProxy(
-		envOr("UPSTREAM", "https://mise-versions.jdx.dev"),
-		envOr("CACHE_DIR", "cache"),
-		envDuration("CACHE_TTL", time.Hour),
-	)
-	if err := os.MkdirAll(proxy.cacheDir, 0o755); err != nil {
-		log.Fatalf("cannot create cache dir %s: %v", proxy.cacheDir, err)
+	proxy := newMirror(upstream, cacheDir, ttl)
+	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
+		log.Fatalf("cannot create cache dir %s: %v", cacheDir, err)
 	}
 
 	fileServer := http.FileServer(http.Dir(docsDir))
@@ -37,16 +36,17 @@ func main() {
 	// core:python fetches /tools/<name>.gz (a gzipped asset list); serve it
 	// reconstructed from docs/<name>.toml. A 404 here is fatal (no fallback).
 	mux.Handle("/tools/", toolsGzHandler(docsDir))
-	// GitHub release mirror. Proxy to the real host, cache to disk, and fall
-	// back to the (possibly stale) cache when the upstream is unreachable. This
-	// keeps mise off api.github.com, which rate-limits unauthenticated callers.
+	// GitHub release mirror. Proxy to the real host, record each response into a
+	// path-mirrored tree, and fall back to the (possibly stale) copy when the
+	// upstream is unreachable. This keeps mise off api.github.com, which
+	// rate-limits unauthenticated callers.
 	mux.Handle("/api/github/", proxy)
 	mux.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	log.Printf("serving %s at %s (GET /data/<tool>.toml, /tools/<name>.gz; /api/github/* -> %s cached in %s, ttl %s)",
-		docsDir, addr, proxy.upstream, proxy.cacheDir, proxy.ttl)
+	log.Printf("serving %s at %s (GET /data/<tool>.toml, /tools/<name>.gz; /api/github/* -> %s mirrored in %s, ttl %s)",
+		docsDir, addr, upstream, cacheDir, ttl)
 	log.Fatal(http.ListenAndServe(addr, logRequests(mux)))
 }
 
@@ -123,22 +123,25 @@ func toolsGzHandler(docsDir string) http.Handler {
 	})
 }
 
-// githubProxy is a disk-caching reverse proxy for the /api/github/* release
-// mirror. It forwards to a real mise-versions host, stores each 2xx response on
-// disk, and serves it back on later hits — revalidating with the upstream once
-// the entry goes stale (via ETag / Last-Modified when offered, else a TTL). The
-// cache is self-contained and path-portable: shut the server down, copy the
-// cache dir to another machine, and it is reused as-is. If the upstream can't be
-// reached but a cached copy exists (even a stale one), that copy is served.
-type githubProxy struct {
+// mirror is a disk-caching reverse proxy for the /api/github/* release mirror. It
+// forwards to a real mise-versions host and records each 2xx response at a disk
+// path that mirrors the request path (api/github/repos/.../latest), with a
+// "<path>.meta" sidecar for the headers. That layout is servable as-is by a dumb
+// static host (e.g. GitHub Pages) — the request path IS the file path — while the
+// live server revalidates once an entry goes stale (via ETag / Last-Modified when
+// offered, else a TTL) and replays the real Content-Type from .meta. The tree is
+// self-contained and path-portable: stop the server, copy or commit the cache
+// dir, and it is reused as-is. If the upstream is unreachable but a copy exists
+// (even a stale one), that copy is served.
+type mirror struct {
 	upstream string
 	cacheDir string
 	ttl      time.Duration
 	client   *http.Client
 }
 
-func newGitHubProxy(upstream, cacheDir string, ttl time.Duration) *githubProxy {
-	return &githubProxy{
+func newMirror(upstream, cacheDir string, ttl time.Duration) *mirror {
+	return &mirror{
 		upstream: strings.TrimRight(upstream, "/"),
 		cacheDir: cacheDir,
 		ttl:      ttl,
@@ -148,7 +151,7 @@ func newGitHubProxy(upstream, cacheDir string, ttl time.Duration) *githubProxy {
 
 // cacheMeta is the sidecar record stored next to each cached body. It carries
 // only relative/portable data (no absolute paths), so the cache dir can be
-// copied between machines unchanged.
+// copied or committed and reused unchanged.
 type cacheMeta struct {
 	URL          string `json:"url"`
 	Status       int    `json:"status"`
@@ -159,16 +162,40 @@ type cacheMeta struct {
 	MaxAge       int64  `json:"max_age"`    // freshness window in seconds (0 => use TTL)
 }
 
-func (p *githubProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// mirrorPaths maps a request path to its on-disk body and meta paths under the
+// cache dir. The query string is ignored (a static host ignores it too, and the
+// mirrored leaf endpoints carry none). ok is false for paths that map to the
+// cache root or would escape it via "..".
+func mirrorPaths(cacheDir, reqPath string) (bodyPath, metaPath string, ok bool) {
+	// Leading slash + Clean resolves any ".." so the result cannot climb above
+	// root; an empty or root-only path has nothing to cache.
+	clean := path.Clean("/" + strings.TrimPrefix(reqPath, "/"))
+	if clean == "/" {
+		return "", "", false
+	}
+	bodyPath = filepath.Join(cacheDir, filepath.FromSlash(clean))
+	// Defense in depth: confirm the join stayed inside the cache dir. rel handles
+	// a relative cacheDir (e.g. "." for the repo-root loop) that a string-prefix
+	// check would mishandle.
+	rel, err := filepath.Rel(cacheDir, bodyPath)
+	if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(os.PathSeparator)) {
+		return "", "", false
+	}
+	return bodyPath, bodyPath + ".meta", true
+}
+
+func (p *mirror) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet && r.Method != http.MethodHead {
 		w.Header().Set("Allow", "GET, HEAD")
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	key := hashKey(r.URL.Path + "?" + r.URL.RawQuery)
-	metaPath := filepath.Join(p.cacheDir, key+".meta")
-	bodyPath := filepath.Join(p.cacheDir, key+".body")
+	bodyPath, metaPath, ok := mirrorPaths(p.cacheDir, r.URL.Path)
+	if !ok {
+		http.Error(w, "bad path", http.StatusBadRequest)
+		return
+	}
 	meta, body, cached := loadCache(metaPath, bodyPath)
 
 	// Fresh cache: serve straight from disk, no network at all.
@@ -219,7 +246,7 @@ func (p *githubProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			FetchedAt:    time.Now().Unix(),
 			MaxAge:       maxAgeSeconds(resp.Header.Get("Cache-Control")),
 		}
-		if err := writeCache(metaPath, bodyPath, newMeta, fresh); err != nil {
+		if err := p.write(bodyPath, metaPath, newMeta, fresh); err != nil {
 			log.Printf("cache write failed for %s: %v", r.URL.Path, err)
 		}
 		p.serve(w, r, newMeta, fresh, "MISS")
@@ -238,8 +265,22 @@ func (p *githubProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// write records a body+meta into the mirrored tree, creating parent dirs first.
+// It refuses to clobber a path already taken by a directory (which would only
+// happen if mise requested both a path and a descendant of it — the release list
+// endpoint that would cause this 404s upstream, so it should not occur).
+func (p *mirror) write(bodyPath, metaPath string, m cacheMeta, body []byte) error {
+	if info, err := os.Stat(bodyPath); err == nil && info.IsDir() {
+		return fmt.Errorf("path %s already exists as a directory", bodyPath)
+	}
+	if err := os.MkdirAll(filepath.Dir(bodyPath), 0o755); err != nil {
+		return err
+	}
+	return writeCache(metaPath, bodyPath, m, body)
+}
+
 // fresh reports whether a cached entry is still within its freshness window.
-func (p *githubProxy) fresh(m cacheMeta) bool {
+func (p *mirror) fresh(m cacheMeta) bool {
 	ttl := time.Duration(m.MaxAge) * time.Second
 	if ttl <= 0 {
 		ttl = p.ttl
@@ -249,7 +290,7 @@ func (p *githubProxy) fresh(m cacheMeta) bool {
 
 // fetch requests the upstream mirror, attaching conditional-request headers when
 // a cached entry exists so the upstream can answer 304 Not Modified.
-func (p *githubProxy) fetch(u *url.URL, cached bool, m cacheMeta) (*http.Response, error) {
+func (p *mirror) fetch(u *url.URL, cached bool, m cacheMeta) (*http.Response, error) {
 	target := p.upstream + u.Path
 	if u.RawQuery != "" {
 		target += "?" + u.RawQuery
@@ -271,7 +312,7 @@ func (p *githubProxy) fetch(u *url.URL, cached bool, m cacheMeta) (*http.Respons
 
 // serve writes a cached entry to the client, tagging it with the cache
 // disposition for the request log.
-func (p *githubProxy) serve(w http.ResponseWriter, r *http.Request, m cacheMeta, body []byte, disposition string) {
+func (p *mirror) serve(w http.ResponseWriter, r *http.Request, m cacheMeta, body []byte, disposition string) {
 	w.Header().Set("X-Cache", disposition)
 	if m.ContentType != "" {
 		w.Header().Set("Content-Type", m.ContentType)
@@ -281,11 +322,6 @@ func (p *githubProxy) serve(w http.ResponseWriter, r *http.Request, m cacheMeta,
 	if r.Method != http.MethodHead {
 		w.Write(body)
 	}
-}
-
-func hashKey(s string) string {
-	sum := sha256.Sum256([]byte(s))
-	return hex.EncodeToString(sum[:])
 }
 
 func loadCache(metaPath, bodyPath string) (cacheMeta, []byte, bool) {
@@ -306,7 +342,7 @@ func loadCache(metaPath, bodyPath string) (cacheMeta, []byte, bool) {
 
 // writeCache persists a body then its meta, each via a temp file + atomic
 // rename. Meta is written last, so a reader that sees a .meta always finds a
-// complete .body alongside it.
+// complete body alongside it.
 func writeCache(metaPath, bodyPath string, m cacheMeta, body []byte) error {
 	if err := atomicWrite(bodyPath, body); err != nil {
 		return err

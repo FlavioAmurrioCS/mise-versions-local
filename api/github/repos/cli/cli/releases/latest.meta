@@ -1,0 +1,9 @@
+{
+  "content_type": "application/json",
+  "etag": null,
+  "fetched_at": 1784098979,
+  "last_modified": "Wed, 15 Jul 2026 06:40:23 GMT",
+  "max_age": 7200,
+  "status": 200,
+  "url": "https://mise-versions.jdx.dev/api/github/repos/cli/cli/releases/latest"
+}
