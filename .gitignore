@@ -1,1 +1,10 @@
+# The mirror tree (data/, tools/, api/) IS committed — it's what Pages serves.
+# Only ignore the built binary and a stray default-CACHE_DIR scratch dir.
 cache
+mise-versions-local
+
+
+# data/
+# tools/
+# api/
+.venv

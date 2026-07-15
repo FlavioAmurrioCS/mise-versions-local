@@ -1,8 +1,13 @@
 name: warm-cache
 
-# Every 2 hours: fetch the latest mise-versions docs, warm the /api/github cache
-# by installing tools.txt against the server on amd64 + arm64, bundle docs + the
-# merged cache, and publish it to the rolling `cache-latest` release.
+# Every 2 hours, refresh the path-mirrored tree and commit it back to `main`
+# (which GitHub Pages serves from `/`):
+#   1. sync data/*.toml from jdx/mise-versions (scripts/sync-docs.sh)
+#   2. warm api/github/* by installing tools.txt against the server, amd64+arm64
+#      (scripts/warm-cache.sh) — the committed api/ seeds the cache, so warming
+#      is incremental and only new/stale entries hit upstream
+#   3. reconstruct tools/*.gz (scripts/build-site.sh)
+#   4. merge both arches and commit data/ + tools/ + api/ to main
 on:
   schedule:
     - cron: "0 */2 * * *"
@@ -20,30 +25,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
-    outputs:
-      commit: ${{ steps.docs.outputs.commit }}
-    steps:
-      - name: Fetch latest mise-versions docs
-        id: docs
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          commit=$(gh api repos/jdx/mise-versions/commits/main --jq .sha)
-          echo "commit=$commit" >> "$GITHUB_OUTPUT"
-          curl -fsSL -o mv.zip "https://github.com/jdx/mise-versions/archive/${commit}.zip"
-          unzip -q mv.zip
-          mv "mise-versions-${commit}/docs" docs
-      - uses: actions/upload-artifact@v4
-        with:
-          name: docs
-          path: docs
-          retention-days: 1
-
   warm:
-    needs: prepare
     strategy:
       fail-fast: false
       matrix:
@@ -55,6 +37,8 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     timeout-minutes: 60
     steps:
+      # Checkout main — its committed api/ seeds the cache so only new/stale
+      # entries are fetched. data/ is refreshed from upstream before warming.
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
@@ -63,71 +47,74 @@ jobs:
         run: |
           curl -fsSL https://mise.run | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - uses: actions/download-artifact@v4
-        with:
-          name: docs
-          path: docs
-      - name: Warm cache
+      - name: Sync docs and warm cache
         env:
-          DOCS_DIR: ${{ github.workspace }}/docs
-          CACHE_DIR: ${{ github.workspace }}/cache
+          GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
           # Scheduled runs use repo variable VERSIONS (set it to 10 to warm
           # history); manual runs use the dispatch input. Defaults to 1.
           VERSIONS: ${{ github.event.inputs.versions || vars.VERSIONS || '1' }}
-        run: bash scripts/warm-cache.sh
+        run: |
+          set -euo pipefail
+          TREE_DIR="$GITHUB_WORKSPACE" bash scripts/sync-docs.sh
+          DOCS_DIR="$GITHUB_WORKSPACE/data" CACHE_DIR="$GITHUB_WORKSPACE" \
+            bash scripts/warm-cache.sh
       - uses: actions/upload-artifact@v4
         with:
-          name: cache-${{ matrix.arch }}
-          path: cache
+          name: api-${{ matrix.arch }}
+          path: api
           retention-days: 1
 
-  bundle:
-    needs: [prepare, warm]
+  publish:
+    needs: warm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history so a fast-forward push to main is possible.
+          fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
-          name: docs
-          path: bundle/docs
+          name: api-amd64
+          path: api-amd64
       - uses: actions/download-artifact@v4
         with:
-          name: cache-amd64
-          path: cache-amd64
-      - uses: actions/download-artifact@v4
-        with:
-          name: cache-arm64
-          path: cache-arm64
-      - name: Merge caches, manifest, and tar
-        run: |
-          set -euo pipefail
-          mkdir -p bundle/cache
-          # Shared release entries are byte-identical across arches (same key);
-          # per-arch attestation entries have distinct keys. Copying both merges
-          # and dedupes in one shot.
-          cp -a cache-amd64/. bundle/cache/
-          cp -a cache-arm64/. bundle/cache/
-          jq -n \
-            --arg t "$(date -u +%FT%TZ)" \
-            --arg c "${{ needs.prepare.outputs.commit }}" \
-            --argjson n "$(find bundle/cache -name '*.meta' | wc -l)" \
-            --rawfile tools tools.txt \
-            '{generated_at:$t, mise_versions_commit:$c, arches:["amd64","arm64"],
-              cache_entries:$n,
-              tools:($tools|split("\n")|map(select(startswith("#")|not))|map(select(length>0)))}' \
-            > bundle/MANIFEST.json
-          cat bundle/MANIFEST.json
-          tar --zstd -cf mise-versions-bundle.tar.zst -C bundle docs cache MANIFEST.json
-          ls -lh mise-versions-bundle.tar.zst
-      - name: Publish to cache-latest release
+          name: api-arm64
+          path: api-arm64
+      - name: Assemble tree
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh release view cache-latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
-            gh release create cache-latest --repo "$GITHUB_REPOSITORY" \
-              --title "Pre-warmed mirror bundle" \
-              --notes "Rolling docs/ + /api/github cache bundle, refreshed every 2h by the warm-cache workflow."
-          gh release upload cache-latest mise-versions-bundle.tar.zst \
-            --repo "$GITHUB_REPOSITORY" --clobber
+          # Merge both arches onto the committed api/: shared release entries are
+          # byte-identical (same path), per-arch attestations have distinct paths.
+          mkdir -p api
+          cp -a api-amd64/. api/
+          cp -a api-arm64/. api/
+          # Refresh the derived parts from the freshly synced sources.
+          TREE_DIR="$GITHUB_WORKSPACE" bash scripts/sync-docs.sh
+          TREE_DIR="$GITHUB_WORKSPACE" bash scripts/build-site.sh
+          jq -n \
+            --arg t "$(date -u +%FT%TZ)" \
+            --slurpfile s SYNC.json \
+            --argjson n "$(find api -name '*.meta' 2>/dev/null | wc -l)" \
+            --rawfile tools tools.txt \
+            '{generated_at:$t, mise_versions_commit:($s[0].commit),
+              arches:["amd64","arm64"], api_github_entries:$n,
+              tools:($tools|split("\n")|map(select(startswith("#")|not))|map(select(length>0)))}' \
+            > MANIFEST.json
+          cat MANIFEST.json
+      - name: Commit to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data tools api SYNC.json MANIFEST.json
+          if git diff --cached --quiet; then
+            echo ">> tree already up to date"
+            exit 0
+          fi
+          git commit -q -m "Warm mirror $(date -u +%FT%TZ)"
+          # Rebase onto any commits pushed since checkout, then push.
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main

@@ -1,0 +1,10 @@
+{
+    "alt-svc": "h3=\":443\"; ma=86400",
+    "cache-control": "public, max-age=3600",
+    "connection": "keep-alive",
+    "content-encoding": "zstd",
+    "content-type": "application/gzip",
+    "server": "cloudflare",
+    "transfer-encoding": "chunked",
+    "vary": "accept-encoding"
+}

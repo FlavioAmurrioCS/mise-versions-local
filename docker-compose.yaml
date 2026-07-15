@@ -15,10 +15,10 @@ services:
     ports:
       - 8080:8080
     # No cache bind mount: the image already ships a warmed /api/github cache at
-    # /app/cache, and a host bind mount would shadow it. To persist runtime
+    # /app/api/github, and a host bind mount would shadow it. To persist runtime
     # revalidations while keeping the baked entries, use a named volume instead
     # (seeded from the image on first run):
-    #   volumes: [cache:/app/cache]   # + a top-level `volumes: { cache: {} }`
+    #   volumes: [cache:/app/api/github]   # + a top-level `volumes: { cache: {} }`
     develop:
       watch:
         - path: main.go

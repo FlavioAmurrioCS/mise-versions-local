@@ -1,48 +1,38 @@
 # syntax=docker/dockerfile:1
 
-# Fetch the pre-warmed bundle (docs/ + cache/ + MANIFEST.json) that the
-# warm-cache workflow publishes to the rolling `cache-latest` release. This
-# replaces downloading the raw mise-versions docs at a pinned commit — the
-# bundle already contains the docs plus a warmed /api/github cache.
-#
-# `cache-latest` is a rolling tag, so build with `--no-cache` (or bump
-# BUNDLE_REF) to pick up a newer bundle.
-FROM debian:bookworm-slim AS bundle
-ARG BUNDLE_REPO=FlavioAmurrioCS/mise-versions-local
-ARG BUNDLE_REF=cache-latest
-ADD https://github.com/${BUNDLE_REPO}/releases/download/${BUNDLE_REF}/mise-versions-bundle.tar.zst /bundle.tar.zst
-RUN \
-    : \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends zstd \
-    && mkdir -p /app \
-    && tar --zstd -xf /bundle.tar.zst -C /app \
-    && rm /bundle.tar.zst \
-    && :
-
+# Self-contained, offline-capable mirror: a static binary plus the warmed tree
+# (data/ + tools/ + api/) that lives in the repo. Build after the tree is
+# populated (run the local warm loop or let the warm-cache workflow commit it).
 
 FROM golang:1.26-bookworm AS builder
 
 ENV CGO_ENABLED=0
+WORKDIR /src
 
+# Build the whole module (not a single bind-mounted file), so adding a source
+# file or dependency can't silently break the image.
 RUN \
-    --mount=type=bind,source=main.go,target=/tmp/main.go \
+    --mount=type=bind,target=/src \
+    --mount=type=cache,target=/root/.cache/go-build \
     : \
-    && go build -o /mise-versions-local /tmp/main.go \
+    && go build -o /mise-versions-local . \
     && :
 
 
-# Minimal runtime: static binary + baked docs and warmed cache. distroless/static
-# ships CA certs, so the /api/github proxy can still reach the upstream on a miss.
+# Minimal runtime. distroless/static ships CA certs, so the /api/github proxy can
+# still reach the upstream on a miss.
 FROM gcr.io/distroless/static-debian12
 
 COPY --from=builder /mise-versions-local /mise-versions-local
-COPY --from=bundle /app/docs /app/docs
-COPY --from=bundle /app/cache /app/cache
-COPY --from=bundle /app/MANIFEST.json /app/MANIFEST.json
+# The warmed mirror tree, straight from the build context (the repo).
+COPY data /app/data
+COPY tools /app/tools
+COPY api /app/api
 
-ENV DOCS_DIR=/app/docs \
-    CACHE_DIR=/app/cache \
+# DOCS_DIR serves /data + /tools from the synced tomls; CACHE_DIR is the tree
+# root so /api/github/* maps to /app/api/github/*.
+ENV DOCS_DIR=/app/data \
+    CACHE_DIR=/app \
     ADDR=0.0.0.0:8080
 
 EXPOSE 8080

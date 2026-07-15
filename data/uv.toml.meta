@@ -1,0 +1,12 @@
+{
+  "alt-svc": "h3=\":443\"; ma=86400",
+  "cache-control": "public, max-age=0, must-revalidate",
+  "cf-cache-status": "HIT",
+  "connection": "keep-alive",
+  "content-type": "application/toml",
+  "etag": "\"95fc230a8d86792e5d3ab65471f0fe65\"",
+  "fetched_at": 1784098979,
+  "max_age": 0,
+  "server": "cloudflare",
+  "vary": "accept-encoding"
+}
