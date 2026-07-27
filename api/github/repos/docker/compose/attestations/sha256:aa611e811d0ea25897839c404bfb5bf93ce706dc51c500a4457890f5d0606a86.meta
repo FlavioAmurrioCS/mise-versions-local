@@ -1,0 +1,4 @@
+{
+    "cache-control": "public, max-age=600, s-maxage=1800, stale-while-revalidate=86400",
+    "content-type": "application/json"
+}

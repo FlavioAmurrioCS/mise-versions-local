@@ -1,0 +1,4 @@
+{
+    "cache-control": "public, max-age=600, s-maxage=31536000, immutable",
+    "content-type": "application/json"
+}

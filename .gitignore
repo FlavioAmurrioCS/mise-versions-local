@@ -2,6 +2,5 @@
 uv.lock
 dir_cache
 
-data
-tools
-api
+# data/, tools/ and api/ are deliberately NOT ignored -- they are the recorded mirror
+# served by GitHub Pages, so they must be committed.
