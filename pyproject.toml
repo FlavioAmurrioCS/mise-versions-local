@@ -1,0 +1,89 @@
+
+#:schema https://www.schemastore.org/pyproject.json
+[project]
+name = "mvl"
+version = "0.1.0"
+requires-python = "~=3.13.0"
+dependencies = [
+  "anyio>=4.14.2",
+  "fastapi>=0.139.0",
+  "httpx>=0.28.1",
+  "uvicorn>=0.51.0",
+]
+
+
+[dependency-groups]
+dev = [
+  "ruff>=0.16.0",
+]
+
+###############################################################################
+# region: ruff
+###############################################################################
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "none"
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+  "ALL",
+]
+ignore = [
+  "COM812",  # missing-trailing-comma
+  "D",       # pydocstyle
+  "ERA001",  # commented-out-code
+  "EXE003",  # shebang-missing-python
+  "ISC001",  # single-line-implicit-string-concatenation
+  "PTH",     # flake8-use-pathlib
+  "T20",     # flake8-print
+  "PLC0415", # import-outside-top-level
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "S101",
+]
+###############################################################################
+# endregion: ruff
+###############################################################################
+
+###############################################################################
+# region: type-checkers
+###############################################################################
+[tool.mypy]
+# https://mypy.readthedocs.io/en/stable/config_file.html
+strict = true
+
+[tool.zuban]
+# https://docs.zubanls.com/en/latest/usage.html#configuration
+mode = "default"
+strict = true
+
+[tool.pyright]
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+typeCheckingMode = "strict"
+reportUnusedImport = false
+
+# [tool.basedpyright]
+# # https://docs.basedpyright.com/latest/configuration/config-files/
+# typeCheckingMode = "all"
+
+[tool.pyrefly]
+# https://pyrefly.org/en/docs/configuration/
+preset = "strict"
+
+[tool.ty.rules]
+# https://docs.astral.sh/ty/reference/configuration/
+all = "error"
+###############################################################################
+# endregion: type-checkers
+###############################################################################

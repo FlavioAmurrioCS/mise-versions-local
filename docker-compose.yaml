@@ -1,0 +1,52 @@
+services:
+  recorder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: recorder
+    restart: unless-stopped
+    init: true
+    command: /root/workspace/recorder/main.sh
+    working_dir: /root/workspace
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/root/workspace
+
+  invoker-arm64:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/arm64
+    init: true
+    command: /root/workspace/invoker/main.sh
+    working_dir: /root/workspace/invoker/
+    volumes:
+      - ./:/root/workspace
+      - ./dir_cache/arm64/cache:/root/.cache/mise
+      - ./dir_cache/arm64/config:/root/.config/mise
+      - ./dir_cache/arm64/data:/root/.local/share/mise
+      - ./dir_cache/arm64/state:/root/.local/state/mise
+    environment:
+      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
+    depends_on:
+      - recorder
+  # invoker-amd64:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   platform: linux/amd64
+  #   init: true
+  #   command: /root/workspace/invoker/main.sh
+  #   working_dir: /root/workspace/invoker/
+  #   volumes:
+  #     - ./:/root/workspace
+  #     - ./dir_cache/amd64/cache:/root/.cache/mise
+  #     - ./dir_cache/amd64/config:/root/.config/mise
+  #     - ./dir_cache/amd64/data:/root/.local/share/mise
+  #     - ./dir_cache/amd64/shims:/root/.local/share/mise/shims
+  #     - ./dir_cache/amd64/state:/root/.local/state/mise
+  #   environment:
+  #     MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
+  #   depends_on:
+  #     - recorder

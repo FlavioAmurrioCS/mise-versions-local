@@ -1,0 +1,16 @@
+dir_cache
+.venv
+.git
+.dockerignore
+.gitignore
+Dockerfile
+create-dirs.sh
+docker-compose.yaml
+invoker
+pyproject.toml
+recorder
+uv.lock
+
+data
+tools
+api

@@ -1,0 +1,7 @@
+.venv
+uv.lock
+dir_cache
+
+data
+tools
+api
