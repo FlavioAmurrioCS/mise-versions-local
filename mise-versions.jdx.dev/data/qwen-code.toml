@@ -1,0 +1,559 @@
+[versions]
+"0.0.1-alpha.7" = { created_at = 2025-07-22T16:21:59.781Z, prerelease = true }
+"0.0.1-alpha.8" = { created_at = 2025-07-23T06:18:04.601Z, prerelease = true }
+"0.0.1-alpha.9" = { created_at = 2025-07-24T12:34:50.084Z, prerelease = true }
+"0.0.1-alpha.10" = { created_at = 2025-07-24T14:17:58.190Z, prerelease = true }
+"0.0.1-alpha.11" = { created_at = 2025-07-29T07:28:03.618Z, prerelease = true }
+"0.0.1-alpha.12" = { created_at = 2025-07-31T14:08:58.739Z, prerelease = true }
+"0.0.1-alpha.13" = { created_at = 2025-08-01T09:48:28.202Z, prerelease = true }
+"0.0.1-alpha.14" = { created_at = 2025-08-01T09:55:20.009Z, prerelease = true }
+"0.0.1-dev1" = { created_at = 2025-07-22T14:49:53.012Z, prerelease = true }
+"0.0.1" = { created_at = 2025-07-22T14:36:58.393Z }
+"0.0.2" = { created_at = 2025-08-01T10:29:31.430Z }
+"0.0.4-nightly.0" = { created_at = 2025-08-02T00:48:47.503Z, prerelease = true }
+"0.0.4-nightly.1" = { created_at = 2025-08-03T00:59:10.224Z, prerelease = true }
+"0.0.4-nightly.2" = { created_at = 2025-08-03T07:28:24.518Z, prerelease = true }
+"0.0.4" = { created_at = 2025-08-03T10:26:05.872Z }
+"0.0.5-nightly.0" = { created_at = 2025-08-04T00:58:30.148Z, prerelease = true }
+"0.0.5-nightly.1" = { created_at = 2025-08-05T00:56:32.044Z, prerelease = true }
+"0.0.5-nightly.2" = { created_at = 2025-08-06T00:57:52.306Z, prerelease = true }
+"0.0.5-nightly.3" = { created_at = 2025-08-06T09:21:15.402Z, prerelease = true }
+"0.0.5-nightly.4" = { created_at = 2025-08-07T00:54:15.603Z, prerelease = true }
+"0.0.5-nightly.5" = { created_at = 2025-08-08T00:54:36.956Z, prerelease = true }
+"0.0.5-nightly.6" = { created_at = 2025-08-08T12:05:58.348Z, prerelease = true }
+"0.0.5-nightly.7" = { created_at = 2025-08-08T13:00:52.680Z, prerelease = true }
+"0.0.5-nightly.8" = { created_at = 2025-08-09T00:11:31.697Z, prerelease = true }
+"0.0.5-nightly.9" = { created_at = 2025-08-10T00:09:16.634Z, prerelease = true }
+"0.0.5-nightly.10" = { created_at = 2025-08-11T00:10:40.182Z, prerelease = true }
+"0.0.5-nightly.11" = { created_at = 2025-08-12T00:10:42.457Z, prerelease = true }
+"0.0.5-nightly.12" = { created_at = 2025-08-12T10:07:35.461Z, prerelease = true }
+"0.0.5" = { created_at = 2025-08-08T13:46:19.332Z }
+"0.0.6-nightly.0" = { created_at = 2025-08-13T00:09:59.040Z, prerelease = true }
+"0.0.6-nightly.1" = { created_at = 2025-08-13T11:03:56.037Z, prerelease = true }
+"0.0.6-nightly.2" = { created_at = 2025-08-14T00:10:07.530Z, prerelease = true }
+"0.0.6" = { created_at = 2025-08-12T14:07:56.374Z }
+"0.0.7-nightly.0" = { created_at = 2025-08-12T13:22:10.992Z, prerelease = true }
+"0.0.7-nightly.1" = { created_at = 2025-08-15T00:09:57.165Z, prerelease = true }
+"0.0.7" = { created_at = 2025-08-15T10:36:16.249Z }
+"0.0.8-nightly.0" = { created_at = 2025-08-16T00:10:29.287Z, prerelease = true }
+"0.0.8-nightly.1" = { created_at = 2025-08-17T00:08:59.396Z, prerelease = true }
+"0.0.8-nightly.2" = { created_at = 2025-08-18T00:11:00.628Z, prerelease = true }
+"0.0.8-nightly.3" = { created_at = 2025-08-19T00:14:10.147Z, prerelease = true }
+"0.0.8-nightly.4" = { created_at = 2025-08-20T00:10:58.637Z, prerelease = true }
+"0.0.8-nightly.5" = { created_at = 2025-08-20T08:32:29.197Z, prerelease = true }
+"0.0.8-nightly.6" = { created_at = 2025-08-21T02:05:47.090Z, prerelease = true }
+"0.0.8-nightly.7" = { created_at = 2025-08-22T00:11:41.199Z, prerelease = true }
+"0.0.8" = { created_at = 2025-08-22T08:44:43.337Z }
+"0.0.9-nightly.0" = { created_at = 2025-08-23T00:12:48.973Z, prerelease = true }
+"0.0.9-nightly.1" = { created_at = 2025-08-24T00:09:39.990Z, prerelease = true }
+"0.0.9-nightly.2" = { created_at = 2025-08-26T06:01:37.234Z, prerelease = true }
+"0.0.9-nightly.3" = { created_at = 2025-08-27T00:11:35.169Z, prerelease = true }
+"0.0.9-nightly.4" = { created_at = 2025-08-27T05:39:27.130Z, prerelease = true }
+"0.0.9" = { created_at = 2025-08-27T09:42:12.466Z }
+"0.0.10-nightly.0" = { created_at = 2025-08-28T00:10:12.993Z, prerelease = true }
+"0.0.10-nightly.1" = { created_at = 2025-09-01T07:37:42.717Z, prerelease = true }
+"0.0.10-nightly.2" = { created_at = 2025-09-02T00:11:03.989Z, prerelease = true }
+"0.0.10" = { created_at = 2025-09-02T08:20:08.185Z }
+"0.0.11-nightly.0" = { created_at = 2025-09-03T00:12:09.037Z, prerelease = true }
+"0.0.11-nightly.1" = { created_at = 2025-09-04T00:13:24.046Z, prerelease = true }
+"0.0.11-nightly.2" = { created_at = 2025-09-09T12:28:18.256Z, prerelease = true }
+"0.0.11-nightly.3" = { created_at = 2025-09-11T00:13:50.386Z, prerelease = true }
+"0.0.11-nightly.4" = { created_at = 2025-09-12T00:15:14.540Z, prerelease = true }
+"0.0.11-nightly.5" = { created_at = 2025-09-12T05:40:34.185Z, prerelease = true }
+"0.0.11-nightly.6" = { created_at = 2025-09-12T08:51:19.813Z, prerelease = true }
+"0.0.11-nightly.7" = { created_at = 2025-09-13T00:14:07.329Z, prerelease = true }
+"0.0.11-nightly.8" = { created_at = 2025-09-14T00:14:21.753Z, prerelease = true }
+"0.0.11-nightly.9" = { created_at = 2025-09-15T00:12:40.138Z, prerelease = true }
+"0.0.11" = { created_at = 2025-09-12T10:06:40.888Z }
+"0.0.12-nightly.0" = { created_at = 2025-09-16T03:29:08.186Z, prerelease = true }
+"0.0.12-nightly.1" = { created_at = 2025-09-18T01:55:20.871Z, prerelease = true }
+"0.0.12-nightly.2" = { created_at = 2025-09-19T00:12:59.858Z, prerelease = true }
+"0.0.12" = { created_at = 2025-09-19T11:58:20.050Z }
+"0.0.13-nightly.0" = { created_at = 2025-09-21T00:14:07.173Z, prerelease = true }
+"0.0.13-nightly.1" = { created_at = 2025-09-23T00:12:42.193Z, prerelease = true }
+"0.0.13-nightly.2" = { created_at = 2025-09-23T14:38:27.863Z, prerelease = true }
+"0.0.13-nightly.3" = { created_at = 2025-09-23T16:22:12.823Z, prerelease = true }
+"0.0.13-nightly.4" = { created_at = 2025-09-24T00:11:38.557Z, prerelease = true }
+"0.0.13" = { created_at = 2025-09-24T03:15:01.983Z }
+"0.0.14-nightly.0" = { created_at = 2025-09-25T09:05:44.430Z, prerelease = true }
+"0.0.14-nightly.1" = { created_at = 2025-09-26T00:11:22.878Z, prerelease = true }
+"0.0.14-nightly.2" = { created_at = 2025-09-29T00:18:18.310Z, prerelease = true }
+"0.0.14-nightly.20251024.d482ad28" = { created_at = 2025-10-24T03:50:19.958Z, prerelease = true }
+"0.0.14" = { created_at = 2025-09-29T06:24:31.229Z }
+"0.0.15-nightly.0" = { created_at = 2025-10-01T00:17:22.211Z, prerelease = true }
+"0.0.15-nightly.1" = { created_at = 2025-10-03T00:11:01.437Z, prerelease = true }
+"0.0.15-nightly.2" = { created_at = 2025-10-05T00:11:20.103Z, prerelease = true }
+"0.0.15-nightly.3" = { created_at = 2025-10-09T00:10:57.593Z, prerelease = true }
+"0.0.15-nightly.4" = { created_at = 2025-10-10T00:12:52.899Z, prerelease = true }
+"0.0.15-nightly.5" = { created_at = 2025-10-13T00:13:13.190Z, prerelease = true }
+"0.0.15-nightly.6" = { created_at = 2025-10-15T00:13:31.731Z, prerelease = true }
+"0.0.15-nightly.7" = { created_at = 2025-10-16T00:11:54.359Z, prerelease = true }
+"0.0.15-nightly.8" = { created_at = 2025-10-18T00:18:11.557Z, prerelease = true }
+"0.0.15-nightly.9" = { created_at = 2025-10-21T00:20:13.829Z, prerelease = true }
+"0.0.15-nightly.10" = { created_at = 2025-10-22T00:13:42.167Z, prerelease = true }
+"0.0.15-nightly.11" = { created_at = 2025-10-23T00:13:11.255Z, prerelease = true }
+"0.1.0-nightly.20251024.bf91aa4e" = { created_at = 2025-10-24T07:03:20.408Z, prerelease = true }
+"0.1.0-nightly.20251025.2a5577e5" = { created_at = 2025-10-25T00:11:59.963Z, prerelease = true }
+"0.1.0-nightly.20251026.2a5577e5" = { created_at = 2025-10-26T00:13:10.263Z, prerelease = true }
+"0.1.0-nightly.20251027.2a5577e5" = { created_at = 2025-10-27T00:11:26.295Z, prerelease = true }
+"0.1.0-preview" = { created_at = 2025-09-24T00:13:59.347Z, prerelease = true }
+"0.1.0-preview.0" = { created_at = 2025-10-24T07:47:19.528Z, prerelease = true }
+"0.1.0" = { created_at = 2025-10-27T09:58:51.749Z }
+"0.1.1-nightly.20251028.65cf80f4" = { created_at = 2025-10-28T00:11:16.396Z, prerelease = true }
+"0.1.1-nightly.20251029.7ccba756" = { created_at = 2025-10-29T00:12:27.788Z, prerelease = true }
+"0.1.1-preview.0" = { created_at = 2025-10-29T00:14:52.348Z, prerelease = true }
+"0.1.1" = { created_at = 2025-10-29T06:54:52.627Z }
+"0.1.2-nightly.20251030.ced79cf4" = { created_at = 2025-10-30T00:13:20.529Z, prerelease = true }
+"0.1.2-nightly.20251031.ced79cf4" = { created_at = 2025-10-31T00:11:34.756Z, prerelease = true }
+"0.1.2" = { created_at = 2025-10-31T10:24:08.119Z }
+"0.1.3-nightly.20251101.ff8a8ac6" = { created_at = 2025-11-01T00:13:43.401Z, prerelease = true }
+"0.1.3-nightly.20251102.ff8a8ac6" = { created_at = 2025-11-02T00:12:05.357Z, prerelease = true }
+"0.1.3-nightly.20251103.ff8a8ac6" = { created_at = 2025-11-03T00:11:00.326Z, prerelease = true }
+"0.1.3-nightly.20251104.ff8a8ac6" = { created_at = 2025-11-04T00:12:32.469Z, prerelease = true }
+"0.1.3-preview.0" = { created_at = 2025-11-05T00:14:17.474Z, prerelease = true }
+"0.1.3" = { created_at = 2025-11-04T09:48:27.858Z }
+"0.1.4-nightly.20251105.7e827833" = { created_at = 2025-11-05T00:11:13.934Z, prerelease = true }
+"0.1.4" = { created_at = 2025-11-05T12:18:58.325Z }
+"0.1.5-nightly.20251106.decb04ef" = { created_at = 2025-11-06T00:12:19.073Z, prerelease = true }
+"0.1.5-nightly.20251107.d17c37af" = { created_at = 2025-11-07T00:13:33.145Z, prerelease = true }
+"0.1.5" = { created_at = 2025-11-07T10:01:54.416Z }
+"0.2.0-nightly.20251108.3c01c715" = { created_at = 2025-11-08T00:11:36.189Z, prerelease = true }
+"0.2.0-nightly.20251109.3c01c715" = { created_at = 2025-11-09T00:11:14.759Z, prerelease = true }
+"0.2.0-nightly.20251110.3c01c715" = { created_at = 2025-11-10T00:11:06.909Z, prerelease = true }
+"0.2.0-preview.0" = { created_at = 2025-11-12T00:13:40.376Z, prerelease = true }
+"0.2.0" = { created_at = 2025-11-07T11:00:33.607Z }
+"0.2.1-nightly.20251112.22edef0c" = { created_at = 2025-11-12T00:12:42.498Z, prerelease = true }
+"0.2.1-nightly.20251113.d5d96c72" = { created_at = 2025-11-13T00:12:02.589Z, prerelease = true }
+"0.2.1" = { created_at = 2025-11-13T11:27:11.711Z }
+"0.2.2-nightly.20251114.b4eba658" = { created_at = 2025-11-14T00:14:03.098Z, prerelease = true }
+"0.2.2-nightly.20251119.97bf48b1" = { created_at = 2025-11-19T04:06:06.046Z, prerelease = true }
+"0.2.2-nightly.20251120.97bf48b1" = { created_at = 2025-11-20T00:11:34.380Z, prerelease = true }
+"0.2.2" = { created_at = 2025-11-19T06:40:47.038Z }
+"0.2.3-nightly.20251120.442a9aed" = { created_at = 2025-11-20T07:14:48.175Z, prerelease = true }
+"0.2.3-nightly.20251121.442a9aed" = { created_at = 2025-11-21T00:11:18.377Z, prerelease = true }
+"0.2.3" = { created_at = 2025-11-20T07:28:20.094Z }
+"0.3.0-nightly.20251123.c9af7481" = { created_at = 2025-11-23T10:11:09.734Z, prerelease = true }
+"0.3.0-nightly.20251124.c9af7481" = { created_at = 2025-11-24T00:11:22.070Z, prerelease = true }
+"0.3.0-nightly.20251125.c9af7481" = { created_at = 2025-11-25T00:11:50.448Z, prerelease = true }
+"0.3.0-nightly.20251126.c9af7481" = { created_at = 2025-11-26T00:11:29.776Z, prerelease = true }
+"0.3.0-nightly.20251127.c9af7481" = { created_at = 2025-11-27T00:11:59.258Z, prerelease = true }
+"0.3.0-nightly.20251128.c9af7481" = { created_at = 2025-11-28T00:11:18.042Z, prerelease = true }
+"0.3.0-nightly.20251129.c9af7481" = { created_at = 2025-11-29T00:11:51.616Z, prerelease = true }
+"0.3.0-nightly.20251130.c9af7481" = { created_at = 2025-11-30T00:10:43.632Z, prerelease = true }
+"0.3.0-nightly.20251201.c9af7481" = { created_at = 2025-12-01T00:11:35.192Z, prerelease = true }
+"0.3.0-nightly.20251202.c9af7481" = { created_at = 2025-12-02T00:11:52.955Z, prerelease = true }
+"0.3.0-nightly.20251203.a7abd8d0" = { created_at = 2025-12-03T00:13:10.219Z, prerelease = true }
+"0.3.0-preview.0" = { created_at = 2025-11-24T01:53:06.287Z, prerelease = true }
+"0.3.0-preview.1" = { created_at = 2025-11-26T00:13:51.063Z, prerelease = true }
+"0.3.0-preview.2" = { created_at = 2025-12-03T00:15:23.645Z, prerelease = true }
+"0.3.0" = { created_at = 2025-11-28T08:59:11.259Z }
+"0.4.0-nightly.20251204.6729980b" = { created_at = 2025-12-04T03:27:11.758Z, prerelease = true }
+"0.4.0-nightly.20251206.ab228c68" = { created_at = 2025-12-06T00:22:38.196Z, prerelease = true }
+"0.4.0-nightly.20251208.b4be2c6c" = { created_at = 2025-12-08T00:25:16.821Z, prerelease = true }
+"0.4.0-nightly.20251209.a6a57233" = { created_at = 2025-12-09T00:22:30.699Z, prerelease = true }
+"0.4.0-preview.0" = { created_at = 2025-12-04T03:42:44.269Z, prerelease = true }
+"0.4.0-preview.1" = { created_at = 2025-12-05T15:26:18.394Z, prerelease = true }
+"0.4.0" = { created_at = 2025-12-06T12:08:15.976Z }
+"0.4.1-nightly.20251210.5fddcd50" = { created_at = 2025-12-10T04:05:02.112Z, prerelease = true }
+"0.4.1-nightly.20251211.a02c4b27" = { created_at = 2025-12-11T01:40:56.784Z, prerelease = true }
+"0.4.1-nightly.20251212.58d3a9c2" = { created_at = 2025-12-12T00:23:48.404Z, prerelease = true }
+"0.4.1" = { created_at = 2025-12-12T09:56:26.952Z }
+"0.5.0-nightly.20251212.8b29dd13" = { created_at = 2025-12-12T09:06:52.826Z, prerelease = true }
+"0.5.0-nightly.20251213.8b29dd13" = { created_at = 2025-12-13T00:24:02.851Z, prerelease = true }
+"0.5.0-nightly.20251214.4cbb57a7" = { created_at = 2025-12-14T00:22:04.280Z, prerelease = true }
+"0.5.0-nightly.20251215.4cbb57a7" = { created_at = 2025-12-15T00:22:40.427Z, prerelease = true }
+"0.5.0-preview.0" = { created_at = 2025-12-13T07:23:55.811Z, prerelease = true }
+"0.5.0" = { created_at = 2025-12-13T17:00:16.565Z }
+"0.5.1-nightly.20251216.52faa0da" = { created_at = 2025-12-16T00:21:41.868Z, prerelease = true }
+"0.5.1-nightly.20251217.0a39c912" = { created_at = 2025-12-17T02:31:13.758Z, prerelease = true }
+"0.5.1-nightly.20251218.8106a6b0" = { created_at = 2025-12-18T00:21:28.472Z, prerelease = true }
+"0.5.1-nightly.20251219.d07ae35c" = { created_at = 2025-12-19T00:21:51.370Z, prerelease = true }
+"0.5.1-nightly.20251220.a92be72e" = { created_at = 2025-12-20T00:13:53.999Z, prerelease = true }
+"0.5.1-nightly.20251221.a92be72e" = { created_at = 2025-12-21T00:13:16.844Z, prerelease = true }
+"0.5.1-nightly.20251222.a92be72e" = { created_at = 2025-12-22T00:13:42.133Z, prerelease = true }
+"0.5.1-preview.0" = { created_at = 2025-12-19T10:43:21.462Z, prerelease = true }
+"0.5.1-preview.1" = { created_at = 2025-12-24T00:16:26.330Z, prerelease = true }
+"0.5.1" = { created_at = 2025-12-19T11:10:03.580Z }
+"0.5.2" = { created_at = 2025-12-22T07:43:08.527Z }
+"0.6.0-nightly.20251224.bc2a7efc" = { created_at = 2025-12-24T00:52:09.657Z, prerelease = true }
+"0.6.0-nightly.20251225.9f65bd3b" = { created_at = 2025-12-25T00:12:58.173Z, prerelease = true }
+"0.6.0-nightly.20251226.17eb20c1" = { created_at = 2025-12-26T10:25:21.868Z, prerelease = true }
+"0.6.0-nightly.20251226.3787e955" = { created_at = 2025-12-26T01:58:37.764Z, prerelease = true }
+"0.6.0-nightly.20251227.2bc80795" = { created_at = 2025-12-27T00:13:50.281Z, prerelease = true }
+"0.6.0-nightly.20251228.2bc80795" = { created_at = 2025-12-28T00:14:42.424Z, prerelease = true }
+"0.6.0-nightly.20251229.2bc80795" = { created_at = 2025-12-29T00:15:03.828Z, prerelease = true }
+"0.6.0-nightly.20251230.105ad743" = { created_at = 2025-12-30T00:17:08.016Z, prerelease = true }
+"0.6.0-nightly.20251231.105ad743" = { created_at = 2025-12-31T00:13:40.521Z, prerelease = true }
+"0.6.0-nightly.20260101.105ad743" = { created_at = 2026-01-01T00:13:49.453Z, prerelease = true }
+"0.6.0-nightly.20260102.105ad743" = { created_at = 2026-01-02T00:14:09.014Z, prerelease = true }
+"0.6.0-nightly.20260103.105ad743" = { created_at = 2026-01-03T00:13:48.393Z, prerelease = true }
+"0.6.0-nightly.20260104.105ad743" = { created_at = 2026-01-04T00:15:16.564Z, prerelease = true }
+"0.6.0-nightly.20260105.105ad743" = { created_at = 2026-01-05T00:16:51.074Z, prerelease = true }
+"0.6.0-nightly.20260106.b19bb6cb" = { created_at = 2026-01-06T00:16:14.694Z, prerelease = true }
+"0.6.0-nightly.20260107.b95d9a8d" = { created_at = 2026-01-07T00:15:48.235Z, prerelease = true }
+"0.6.0-preview.0" = { created_at = 2025-12-24T01:17:42.192Z, prerelease = true }
+"0.6.0-preview.1" = { created_at = 2025-12-25T08:53:41.700Z, prerelease = true }
+"0.6.0-preview.2" = { created_at = 2025-12-31T00:16:14.756Z, prerelease = true }
+"0.6.0-preview.3" = { created_at = 2026-01-07T00:17:04.563Z, prerelease = true }
+"0.6.0" = { created_at = 2025-12-26T10:43:41.485Z }
+"0.6.1-nightly.20260107.2c285394" = { created_at = 2026-01-07T09:11:35.408Z, prerelease = true }
+"0.6.1-nightly.20260107.f6771c08" = { created_at = 2026-01-07T09:52:06.238Z, prerelease = true }
+"0.6.1-nightly.20260108.570ec432" = { created_at = 2026-01-08T00:13:19.893Z, prerelease = true }
+"0.6.1" = { created_at = 2026-01-07T10:15:19.815Z }
+"0.6.2-preview.0" = { created_at = 2026-01-12T04:06:28.011Z, prerelease = true }
+"0.6.2" = { created_at = 2026-01-12T04:28:02.801Z }
+"0.7.0-nightly.20260108.f776075a" = { created_at = 2026-01-08T11:42:03.907Z, prerelease = true }
+"0.7.0-nightly.20260109.f776075a" = { created_at = 2026-01-09T00:15:20.181Z, prerelease = true }
+"0.7.0-nightly.20260110.bde31d12" = { created_at = 2026-01-10T00:14:14.681Z, prerelease = true }
+"0.7.0-nightly.20260111.bde31d12" = { created_at = 2026-01-11T00:15:14.815Z, prerelease = true }
+"0.7.0-nightly.20260112.bde31d12" = { created_at = 2026-01-12T00:14:30.130Z, prerelease = true }
+"0.7.0-nightly.20260113.09196c6e" = { created_at = 2026-01-13T00:14:45.765Z, prerelease = true }
+"0.7.0-nightly.20260114.d20f2a41" = { created_at = 2026-01-14T00:14:43.968Z, prerelease = true }
+"0.7.0-preview.0" = { created_at = 2026-01-13T11:35:10.395Z, prerelease = true }
+"0.7.0-preview.1" = { created_at = 2026-01-14T00:17:58.530Z, prerelease = true }
+"0.7.0" = { created_at = 2026-01-14T01:39:45.865Z }
+"0.7.1-nightly.20260115.985f65f8" = { created_at = 2026-01-15T00:14:19.207Z, prerelease = true }
+"0.7.1-nightly.20260116.886f914f" = { created_at = 2026-01-16T00:14:44.806Z, prerelease = true }
+"0.7.1-nightly.20260117.0681c718" = { created_at = 2026-01-17T00:13:29.396Z, prerelease = true }
+"0.7.1-nightly.20260118.0681c718" = { created_at = 2026-01-18T00:13:52.576Z, prerelease = true }
+"0.7.1-nightly.20260119.0681c718" = { created_at = 2026-01-19T00:13:59.711Z, prerelease = true }
+"0.7.1-nightly.20260121.6eb16c0b" = { created_at = 2026-01-21T00:15:03.901Z, prerelease = true }
+"0.7.1-preview.0" = { created_at = 2026-01-20T02:05:26.018Z, prerelease = true }
+"0.7.1-preview.1" = { created_at = 2026-01-21T00:17:14.822Z, prerelease = true }
+"0.7.1" = { created_at = 2026-01-14T11:12:20.299Z }
+"0.7.2-preview.0" = { created_at = 2026-01-19T11:12:46.180Z, prerelease = true }
+"0.7.2-preview.1" = { created_at = 2026-01-20T02:22:57.977Z, prerelease = true }
+"0.7.2-preview.2" = { created_at = 2026-01-20T08:17:34.401Z, prerelease = true }
+"0.7.2" = { created_at = 2026-01-20T09:10:52.719Z }
+"0.8.0-nightly.20260122.21b26a40" = { created_at = 2026-01-22T00:16:07.489Z, prerelease = true }
+"0.8.0-nightly.20260123.011f3d23" = { created_at = 2026-01-23T00:14:13.041Z, prerelease = true }
+"0.8.0-nightly.20260124.829ba9c4" = { created_at = 2026-01-24T00:14:20.878Z, prerelease = true }
+"0.8.0-nightly.20260125.829ba9c4" = { created_at = 2026-01-25T00:16:09.441Z, prerelease = true }
+"0.8.0-nightly.20260126.829ba9c4" = { created_at = 2026-01-26T00:14:19.244Z, prerelease = true }
+"0.8.0-nightly.20260127.eef9c49e" = { created_at = 2026-01-27T00:15:06.879Z, prerelease = true }
+"0.8.0-preview.0" = { created_at = 2026-01-21T12:25:16.431Z, prerelease = true }
+"0.8.0-preview.1" = { created_at = 2026-01-22T08:19:15.925Z, prerelease = true }
+"0.8.0-preview.2" = { created_at = 2026-01-23T01:56:49.870Z, prerelease = true }
+"0.8.0-preview.3" = { created_at = 2026-01-27T01:46:03.827Z, prerelease = true }
+"0.8.0-preview.4" = { created_at = 2026-01-27T02:20:00.213Z, prerelease = true }
+"0.8.0-preview.5" = { created_at = 2026-01-28T00:18:03.083Z, prerelease = true }
+"0.8.0" = { created_at = 2026-01-27T12:15:21.262Z }
+"0.8.1" = { created_at = 2026-01-27T13:36:30.125Z }
+"0.8.2-nightly.20260128.dd973379" = { created_at = 2026-01-28T00:14:32.859Z, prerelease = true }
+"0.8.2-nightly.20260129.dd973379" = { created_at = 2026-01-29T00:15:06.088Z, prerelease = true }
+"0.8.2-preview.0" = { created_at = 2026-01-27T13:05:27.649Z, prerelease = true }
+"0.8.2-preview.1" = { created_at = 2026-01-29T04:21:25.437Z, prerelease = true }
+"0.8.2-preview.2" = { created_at = 2026-01-29T09:38:21.024Z, prerelease = true }
+"0.8.2" = { created_at = 2026-01-30T02:31:54.772Z }
+"0.9.0-nightly.20260130.0eb94a29" = { created_at = 2026-01-30T00:16:16.465Z, prerelease = true }
+"0.9.0-nightly.20260131.bd900d36" = { created_at = 2026-01-31T00:15:55.740Z, prerelease = true }
+"0.9.0-nightly.20260201.bd900d36" = { created_at = 2026-02-01T00:15:33.312Z, prerelease = true }
+"0.9.0-nightly.20260202.bd900d36" = { created_at = 2026-02-02T00:16:23.531Z, prerelease = true }
+"0.9.0-nightly.20260203.bd900d36" = { created_at = 2026-02-03T00:17:43.123Z, prerelease = true }
+"0.9.0-nightly.20260204.7fb45c56" = { created_at = 2026-02-04T00:15:59.280Z, prerelease = true }
+"0.9.0-nightly.20260205.ce7506d6" = { created_at = 2026-02-05T00:16:53.097Z, prerelease = true }
+"0.9.0-preview.0" = { created_at = 2026-01-29T10:08:58.617Z, prerelease = true }
+"0.9.0-preview.1" = { created_at = 2026-01-30T03:22:55.288Z, prerelease = true }
+"0.9.0-preview.2" = { created_at = 2026-02-03T06:18:30.592Z, prerelease = true }
+"0.9.0-preview.3" = { created_at = 2026-02-04T00:18:32.011Z, prerelease = true }
+"0.9.0" = { created_at = 2026-02-03T07:06:50.336Z }
+"0.9.1-preview.0" = { created_at = 2026-02-04T07:35:43.299Z, prerelease = true }
+"0.9.1" = { created_at = 2026-02-05T03:43:14.162Z }
+"0.10.0-nightly.20260207.36931e1e" = { created_at = 2026-02-07T00:17:56.345Z, prerelease = true }
+"0.10.0-nightly.20260208.36931e1e" = { created_at = 2026-02-08T00:19:01.628Z, prerelease = true }
+"0.10.0-nightly.20260209.36931e1e" = { created_at = 2026-02-09T00:17:39.346Z, prerelease = true }
+"0.10.0-nightly.20260210.fd4476f8" = { created_at = 2026-02-10T00:21:40.550Z, prerelease = true }
+"0.10.0-nightly.20260211.66f754e2" = { created_at = 2026-02-11T00:21:22.874Z, prerelease = true }
+"0.10.0-preview.0" = { created_at = 2026-02-06T02:47:58.153Z, prerelease = true }
+"0.10.0-preview.1" = { created_at = 2026-02-06T10:13:12.503Z, prerelease = true }
+"0.10.0-preview.2" = { created_at = 2026-02-09T02:27:00.248Z, prerelease = true }
+"0.10.0-preview.3" = { created_at = 2026-02-09T02:34:54.359Z, prerelease = true }
+"0.10.0-preview.4" = { created_at = 2026-02-10T11:20:00.621Z, prerelease = true }
+"0.10.0-preview.5" = { created_at = 2026-02-11T00:24:16.439Z, prerelease = true }
+"0.10.0-preview.6" = { created_at = 2026-02-11T04:27:26.808Z, prerelease = true }
+"0.10.0" = { created_at = 2026-02-09T04:09:48.478Z }
+"0.10.1-nightly.20260212.fb9f3fb4" = { created_at = 2026-02-12T00:17:59.075Z, prerelease = true }
+"0.10.1-nightly.20260213.51fdf3c1" = { created_at = 2026-02-13T00:19:32.074Z, prerelease = true }
+"0.10.1-nightly.20260214.03c38899" = { created_at = 2026-02-14T00:19:16.620Z, prerelease = true }
+"0.10.1-nightly.20260215.03c38899" = { created_at = 2026-02-15T00:15:10.613Z, prerelease = true }
+"0.10.1" = { created_at = 2026-02-11T09:41:12.794Z }
+"0.10.2-nightly.20260216.f467c249" = { created_at = 2026-02-16T00:17:41.681Z, prerelease = true }
+"0.10.2-nightly.20260217.a0a0a70b" = { created_at = 2026-02-17T00:18:51.679Z, prerelease = true }
+"0.10.2-nightly.20260218.a0a0a70b" = { created_at = 2026-02-18T00:19:31.628Z, prerelease = true }
+"0.10.2-preview.0" = { created_at = 2026-02-18T00:22:50.422Z, prerelease = true }
+"0.10.2" = { created_at = 2026-02-14T11:14:46.325Z }
+"0.10.3" = { created_at = 2026-02-16T09:46:56.404Z }
+"0.10.4-nightly.20260219.c6a723ef" = { created_at = 2026-02-19T00:20:00.575Z, prerelease = true }
+"0.10.4-nightly.20260220.c6a723ef" = { created_at = 2026-02-20T00:19:54.294Z, prerelease = true }
+"0.10.4-preview.0" = { created_at = 2026-02-18T02:43:01.537Z, prerelease = true }
+"0.10.4" = { created_at = 2026-02-18T04:45:34.793Z }
+"0.10.5-nightly.20260221.fc04ba1e" = { created_at = 2026-02-21T00:19:03.933Z, prerelease = true }
+"0.10.5-nightly.20260222.fc04ba1e" = { created_at = 2026-02-22T00:18:43.060Z, prerelease = true }
+"0.10.5-nightly.20260224.a13d88ac" = { created_at = 2026-02-24T00:19:24.448Z, prerelease = true }
+"0.10.5-nightly.20260225.229c4431" = { created_at = 2026-02-25T00:19:15.070Z, prerelease = true }
+"0.10.5-preview.0" = { created_at = 2026-02-25T00:22:59.904Z, prerelease = true }
+"0.10.5" = { created_at = 2026-02-18T13:05:52.390Z }
+"0.10.6" = { created_at = 2026-02-24T16:21:12.546Z }
+"0.11.0-nightly.20260227.f6a90dd2" = { created_at = 2026-02-27T00:20:36.893Z, prerelease = true }
+"0.11.0-nightly.20260228.e93b2873" = { created_at = 2026-02-28T00:20:07.624Z, prerelease = true }
+"0.11.0-nightly.20260301.14df5a57" = { created_at = 2026-03-01T00:21:30.144Z, prerelease = true }
+"0.11.0-preview.0" = { created_at = 2026-02-26T15:31:02.661Z, prerelease = true }
+"0.11.0-preview.1" = { created_at = 2026-02-28T00:58:41.058Z, prerelease = true }
+"0.11.0" = { created_at = 2026-02-28T10:43:39.127Z }
+"0.11.1-nightly.20260302.1f46ed28" = { created_at = 2026-03-02T00:21:54.692Z, prerelease = true }
+"0.11.1-nightly.20260303.407a66c9" = { created_at = 2026-03-03T00:22:26.788Z, prerelease = true }
+"0.11.1-nightly.20260304.9d8921db" = { created_at = 2026-03-04T00:21:07.350Z, prerelease = true }
+"0.11.1-preview.0" = { created_at = 2026-03-02T14:28:32.652Z, prerelease = true }
+"0.11.1-preview.1" = { created_at = 2026-03-03T01:41:39.677Z, prerelease = true }
+"0.11.1-preview.2" = { created_at = 2026-03-04T00:25:05.084Z, prerelease = true }
+"0.11.1" = { created_at = 2026-03-03T13:08:40.098Z }
+"0.12.0-nightly.20260305.991ae9fe" = { created_at = 2026-03-05T00:21:08.630Z, prerelease = true }
+"0.12.0-nightly.20260306.ff264038" = { created_at = 2026-03-06T00:26:29.590Z, prerelease = true }
+"0.12.0-nightly.20260307.0b7ad066" = { created_at = 2026-03-07T00:27:26.452Z, prerelease = true }
+"0.12.0-nightly.20260308.0b7ad066" = { created_at = 2026-03-08T00:23:53.243Z, prerelease = true }
+"0.12.0-nightly.20260309.d63798cc" = { created_at = 2026-03-09T00:25:41.302Z, prerelease = true }
+"0.12.0-preview.0" = { created_at = 2026-03-06T04:29:15.259Z, prerelease = true }
+"0.12.0-preview.1" = { created_at = 2026-03-08T15:46:32.105Z, prerelease = true }
+"0.12.0-preview.2" = { created_at = 2026-03-11T00:30:14.695Z, prerelease = true }
+"0.12.0" = { created_at = 2026-03-09T13:06:04.321Z }
+"0.12.1-nightly.20260311.bf99f956" = { created_at = 2026-03-11T00:28:27.458Z, prerelease = true }
+"0.12.1-nightly.20260312.2a836639" = { created_at = 2026-03-12T00:27:25.646Z, prerelease = true }
+"0.12.1-preview.0" = { created_at = 2026-03-11T12:32:31.293Z, prerelease = true }
+"0.12.1" = { created_at = 2026-03-11T13:42:01.101Z }
+"0.12.2-nightly.20260313.46d57afb" = { created_at = 2026-03-13T00:27:26.950Z, prerelease = true }
+"0.12.2-preview.0" = { created_at = 2026-03-12T11:24:07.633Z, prerelease = true }
+"0.12.2-preview.1" = { created_at = 2026-03-13T10:36:27.346Z, prerelease = true }
+"0.12.2" = { created_at = 2026-03-12T14:37:44.133Z }
+"0.12.3-nightly.20260314.f1ee4638" = { created_at = 2026-03-14T00:29:32.540Z, prerelease = true }
+"0.12.3-nightly.20260315.b2c9e641" = { created_at = 2026-03-15T00:29:14.809Z, prerelease = true }
+"0.12.3" = { created_at = 2026-03-13T12:49:39.303Z }
+"0.12.4-nightly.20260316.110fcd7b7" = { created_at = 2026-03-16T00:27:59.355Z, prerelease = true }
+"0.12.4-preview.0" = { created_at = 2026-03-16T02:21:00.080Z, prerelease = true }
+"0.12.4" = { created_at = 2026-03-16T10:04:55.946Z }
+"0.12.5-nightly.20260317.dbfa5b3e8" = { created_at = 2026-03-17T00:27:37.573Z, prerelease = true }
+"0.12.5-preview.0" = { created_at = 2026-03-18T00:32:31.146Z, prerelease = true }
+"0.12.5" = { created_at = 2026-03-16T15:38:54.438Z }
+"0.12.6-nightly.20260318.ac30c98a2" = { created_at = 2026-03-18T00:28:56.347Z, prerelease = true }
+"0.12.6" = { created_at = 2026-03-17T11:55:23.297Z }
+"0.13.0-nightly.20260320.b8dda154d" = { created_at = 2026-03-20T00:25:05.999Z, prerelease = true }
+"0.13.0-nightly.20260321.38caa0b21" = { created_at = 2026-03-21T00:23:09.643Z, prerelease = true }
+"0.13.0-nightly.20260322.38caa0b21" = { created_at = 2026-03-22T00:20:37.699Z, prerelease = true }
+"0.13.0-nightly.20260323.38caa0b21" = { created_at = 2026-03-23T00:24:21.769Z, prerelease = true }
+"0.13.0-nightly.20260324.aebe889b3" = { created_at = 2026-03-24T00:23:47.286Z, prerelease = true }
+"0.13.0-nightly.20260325.3776825c2" = { created_at = 2026-03-25T00:25:13.926Z, prerelease = true }
+"0.13.0-nightly.20260326.28e62882f" = { created_at = 2026-03-26T00:25:43.613Z, prerelease = true }
+"0.13.0-preview.0" = { created_at = 2026-03-19T03:22:19.835Z, prerelease = true }
+"0.13.0-preview.1" = { created_at = 2026-03-20T09:45:22.928Z, prerelease = true }
+"0.13.0-preview.2" = { created_at = 2026-03-23T03:11:50.521Z, prerelease = true }
+"0.13.0-preview.3" = { created_at = 2026-03-23T03:51:12.078Z, prerelease = true }
+"0.13.0-preview.4" = { created_at = 2026-03-23T04:57:47.897Z, prerelease = true }
+"0.13.0-preview.5" = { created_at = 2026-03-23T09:08:12.880Z, prerelease = true }
+"0.13.0-preview.6" = { created_at = 2026-03-23T12:14:16.610Z, prerelease = true }
+"0.13.0-preview.7" = { created_at = 2026-03-23T13:57:01.146Z, prerelease = true }
+"0.13.0" = { created_at = 2026-03-23T14:31:59.874Z }
+"0.13.1-nightly.20260329.070ec5b43" = { created_at = 2026-03-29T00:23:20.440Z, prerelease = true }
+"0.13.1-nightly.20260330.070ec5b43" = { created_at = 2026-03-30T00:24:14.455Z, prerelease = true }
+"0.13.1-preview.0" = { created_at = 2026-03-26T14:14:24.107Z, prerelease = true }
+"0.13.1" = { created_at = 2026-03-27T10:17:28.030Z }
+"0.13.2-nightly.20260331.1b1a029fd" = { created_at = 2026-03-31T00:25:29.489Z, prerelease = true }
+"0.13.2-nightly.20260401.20e51e3d3" = { created_at = 2026-04-01T00:25:41.503Z, prerelease = true }
+"0.13.2-preview.0" = { created_at = 2026-04-01T00:30:04.072Z, prerelease = true }
+"0.13.2" = { created_at = 2026-03-30T11:43:39.831Z }
+"0.14.0-nightly.20260402.a5f17ee39" = { created_at = 2026-04-02T00:28:14.693Z, prerelease = true }
+"0.14.0-preview.0" = { created_at = 2026-03-25T10:20:01.163Z, prerelease = true }
+"0.14.0-preview.1" = { created_at = 2026-03-27T12:16:16.075Z, prerelease = true }
+"0.14.0-preview.2" = { created_at = 2026-03-30T13:24:20.865Z, prerelease = true }
+"0.14.0-preview.3" = { created_at = 2026-04-01T04:46:05.816Z, prerelease = true }
+"0.14.0-preview.4" = { created_at = 2026-04-01T12:50:32.506Z, prerelease = true }
+"0.14.0-preview.5" = { created_at = 2026-04-02T03:45:55.146Z, prerelease = true }
+"0.14.0-preview.6" = { created_at = 2026-04-08T00:36:19.883Z, prerelease = true }
+"0.14.0" = { created_at = 2026-04-03T00:41:34.972Z }
+"0.14.1-nightly.20260408.4d4af4ac5" = { created_at = 2026-04-08T00:32:46.031Z, prerelease = true }
+"0.14.1-preview.0" = { created_at = 2026-04-07T08:21:08.335Z, prerelease = true }
+"0.14.1" = { created_at = 2026-04-07T13:06:53.985Z }
+"0.14.2-nightly.20260409.f208801b0" = { created_at = 2026-04-09T00:30:47.048Z, prerelease = true }
+"0.14.2-nightly.20260410.4d2d4432d" = { created_at = 2026-04-10T00:34:45.552Z, prerelease = true }
+"0.14.2" = { created_at = 2026-04-08T13:59:45.787Z }
+"0.14.3-nightly.20260411.55bcec70d" = { created_at = 2026-04-11T00:32:43.443Z, prerelease = true }
+"0.14.3-nightly.20260412.56392c739" = { created_at = 2026-04-12T00:32:30.604Z, prerelease = true }
+"0.14.3-nightly.20260413.7614c8c58" = { created_at = 2026-04-13T00:32:02.298Z, prerelease = true }
+"0.14.3-preview.0" = { created_at = 2026-04-10T12:38:41.152Z, prerelease = true }
+"0.14.3" = { created_at = 2026-04-10T14:21:36.237Z }
+"0.14.4-nightly.20260414.1486e8538" = { created_at = 2026-04-14T00:24:59.362Z, prerelease = true }
+"0.14.4-nightly.20260415.9f9ffbf95" = { created_at = 2026-04-15T00:25:16.008Z, prerelease = true }
+"0.14.4-preview.0" = { created_at = 2026-04-13T11:08:32.940Z, prerelease = true }
+"0.14.4-preview.1" = { created_at = 2026-04-15T00:29:09.844Z, prerelease = true }
+"0.14.4" = { created_at = 2026-04-13T14:26:18.353Z }
+"0.14.5-nightly.20260416.a6612940f" = { created_at = 2026-04-16T00:25:32.700Z, prerelease = true }
+"0.14.5-nightly.20260417.12b24e2d2" = { created_at = 2026-04-17T00:25:12.742Z, prerelease = true }
+"0.14.5-nightly.20260418.418acc548" = { created_at = 2026-04-18T00:22:39.160Z, prerelease = true }
+"0.14.5-nightly.20260419.a623655c8" = { created_at = 2026-04-19T00:21:05.575Z, prerelease = true }
+"0.14.5-nightly.20260420.60a6dfc14" = { created_at = 2026-04-20T00:20:31.931Z, prerelease = true }
+"0.14.5-nightly.20260422.d1c8dff4d" = { created_at = 2026-04-22T00:22:55.873Z, prerelease = true }
+"0.14.5-preview.0" = { created_at = 2026-04-22T00:25:29.296Z, prerelease = true }
+"0.14.5" = { created_at = 2026-04-15T15:32:59.673Z }
+"0.15.0-nightly.20260423.d40fe7cdb" = { created_at = 2026-04-23T00:27:58.523Z, prerelease = true }
+"0.15.0-preview.0" = { created_at = 2026-04-17T15:15:01.757Z, prerelease = true }
+"0.15.0-preview.1" = { created_at = 2026-04-21T06:36:01.806Z, prerelease = true }
+"0.15.0-preview.2" = { created_at = 2026-04-22T01:54:12.409Z, prerelease = true }
+"0.15.0" = { created_at = 2026-04-22T11:45:28.390Z }
+"0.15.1-nightly.20260424.4e0a37549" = { created_at = 2026-04-24T00:27:04.678Z, prerelease = true }
+"0.15.1" = { created_at = 2026-04-23T03:57:33.027Z }
+"0.15.2-nightly.20260427.3b0b6c052" = { created_at = 2026-04-27T00:25:08.242Z, prerelease = true }
+"0.15.2-nightly.20260428.1befabe58" = { created_at = 2026-04-28T00:29:11.965Z, prerelease = true }
+"0.15.2-preview.0" = { created_at = 2026-04-29T00:34:05.469Z, prerelease = true }
+"0.15.2" = { created_at = 2026-04-24T12:11:38.951Z }
+"0.15.3-nightly.20260429.2ee014e34" = { created_at = 2026-04-29T00:30:17.918Z, prerelease = true }
+"0.15.3-nightly.20260430.da2936336" = { created_at = 2026-04-30T00:30:28.176Z, prerelease = true }
+"0.15.3" = { created_at = 2026-04-26T06:49:49.396Z }
+"0.15.4" = { created_at = 2026-04-28T13:22:24.160Z }
+"0.15.5-preview.0" = { created_at = 2026-04-29T08:45:39.784Z, prerelease = true }
+"0.15.5" = { created_at = 2026-04-29T09:54:13.560Z }
+"0.15.6-nightly.20260501.8b6b0d64f" = { created_at = 2026-05-01T00:29:35.313Z, prerelease = true }
+"0.15.6-nightly.20260502.5d1052a35" = { created_at = 2026-05-02T00:30:22.978Z, prerelease = true }
+"0.15.6-nightly.20260503.5037fa762" = { created_at = 2026-05-03T00:25:21.269Z, prerelease = true }
+"0.15.6-nightly.20260504.e617f20d1" = { created_at = 2026-05-04T00:29:15.138Z, prerelease = true }
+"0.15.6-nightly.20260505.2e69d641d" = { created_at = 2026-05-05T00:30:59.625Z, prerelease = true }
+"0.15.6-nightly.20260506.2a5be0d3b" = { created_at = 2026-05-06T00:30:34.755Z, prerelease = true }
+"0.15.6-nightly.20260507.15342b893" = { created_at = 2026-05-07T00:36:21.599Z, prerelease = true }
+"0.15.6-preview.0" = { created_at = 2026-04-30T04:06:30.949Z, prerelease = true }
+"0.15.6-preview.1" = { created_at = 2026-05-06T00:33:18.001Z, prerelease = true }
+"0.15.6" = { created_at = 2026-04-30T07:58:52.249Z }
+"0.15.7-preview.0" = { created_at = 2026-05-06T01:59:38.867Z, prerelease = true }
+"0.15.7-preview.1" = { created_at = 2026-05-07T04:27:47.070Z, prerelease = true }
+"0.15.7-preview.2" = { created_at = 2026-05-07T06:07:29.083Z, prerelease = true }
+"0.15.7" = { created_at = 2026-05-07T09:22:05.502Z }
+"0.15.8-nightly.20260508.0491252b2" = { created_at = 2026-05-08T00:31:54.478Z, prerelease = true }
+"0.15.8-preview.0" = { created_at = 2026-05-08T08:37:45.925Z, prerelease = true }
+"0.15.8" = { created_at = 2026-05-07T16:24:19.776Z }
+"0.15.9-nightly.20260509.199c0e290" = { created_at = 2026-05-09T00:32:44.746Z, prerelease = true }
+"0.15.9-nightly.20260510.f4d0ad6b7" = { created_at = 2026-05-10T00:31:03.764Z, prerelease = true }
+"0.15.9" = { created_at = 2026-05-08T14:44:51.701Z }
+"0.15.10-nightly.20260511.0a05ea800" = { created_at = 2026-05-11T00:32:22.152Z, prerelease = true }
+"0.15.10-nightly.20260513.14512080e" = { created_at = 2026-05-13T00:35:35.015Z, prerelease = true }
+"0.15.10-preview.0" = { created_at = 2026-05-09T07:26:54.179Z, prerelease = true }
+"0.15.10-preview.1" = { created_at = 2026-05-13T00:40:24.102Z, prerelease = true }
+"0.15.10" = { created_at = 2026-05-10T06:48:22.718Z }
+"0.15.11-nightly.20260516.435f711e3" = { created_at = 2026-05-16T00:34:00.279Z, prerelease = true }
+"0.15.11-nightly.20260518.f44ed0941" = { created_at = 2026-05-18T00:36:54.591Z, prerelease = true }
+"0.15.11-preview.0" = { created_at = 2026-05-12T04:20:52.822Z, prerelease = true }
+"0.15.11-preview.1" = { created_at = 2026-05-12T09:33:45.026Z, prerelease = true }
+"0.15.11-preview.2" = { created_at = 2026-05-13T01:56:44.068Z, prerelease = true }
+"0.15.11" = { created_at = 2026-05-13T03:37:48.334Z }
+"0.15.12-preview.0" = { created_at = 2026-05-15T03:56:03.694Z, prerelease = true }
+"0.15.12-preview.1" = { created_at = 2026-05-15T09:17:35.207Z, prerelease = true }
+"0.15.12-preview.2" = { created_at = 2026-05-15T22:24:14.124Z, prerelease = true }
+"0.15.12-preview.3" = { created_at = 2026-05-17T10:23:13.763Z, prerelease = true }
+"0.16.0-nightly.20260522.48b0a8bfc" = { created_at = 2026-05-22T14:18:33.601Z, prerelease = true }
+"0.16.0-preview.0" = { created_at = 2026-05-17T15:10:25.623Z, prerelease = true }
+"0.16.0" = { created_at = 2026-05-21T09:48:24.849Z }
+"0.16.1-nightly.20260524.84f408017" = { created_at = 2026-05-24T00:37:42.675Z, prerelease = true }
+"0.16.1-nightly.20260525.84f408017" = { created_at = 2026-05-25T00:38:41.854Z, prerelease = true }
+"0.16.1-nightly.20260526.e8b79d772" = { created_at = 2026-05-26T00:39:30.526Z, prerelease = true }
+"0.16.1-nightly.20260527.641a1a739" = { created_at = 2026-05-27T00:40:16.364Z, prerelease = true }
+"0.16.1-nightly.20260528.34b7d472e" = { created_at = 2026-05-28T00:39:17.954Z, prerelease = true }
+"0.16.1-nightly.20260529.7bed56b9b" = { created_at = 2026-05-29T00:40:06.832Z, prerelease = true }
+"0.16.1-preview.0" = { created_at = 2026-05-27T00:45:03.217Z, prerelease = true }
+"0.16.1" = { created_at = 2026-05-23T14:52:55.155Z }
+"0.16.2" = { created_at = 2026-05-27T09:30:48.774Z }
+"0.16.10-preview.0" = { created_at = 2026-05-09T06:11:32.747Z, prerelease = true }
+"0.17.0-nightly.20260530.c699738f9" = { created_at = 2026-05-30T00:40:57.140Z, prerelease = true }
+"0.17.0-nightly.20260531.c699738f9" = { created_at = 2026-05-31T00:40:18.498Z, prerelease = true }
+"0.17.0-nightly.20260601.1c48e4121" = { created_at = 2026-06-01T00:40:20.778Z, prerelease = true }
+"0.17.0-nightly.20260602.cea15a118" = { created_at = 2026-06-02T00:46:39.892Z, prerelease = true }
+"0.17.0-nightly.20260603.68408c30c" = { created_at = 2026-06-03T00:51:10.736Z, prerelease = true }
+"0.17.0-preview.0" = { created_at = 2026-06-03T00:55:30.292Z, prerelease = true }
+"0.17.0" = { created_at = 2026-05-29T09:58:40.432Z }
+"0.17.1-nightly.20260604.16dd99fa3" = { created_at = 2026-06-04T00:51:31.383Z, prerelease = true }
+"0.17.1-nightly.20260605.715266537" = { created_at = 2026-06-05T00:43:18.456Z, prerelease = true }
+"0.17.1-nightly.20260606.16c1d9a5a" = { created_at = 2026-06-06T00:42:46.097Z, prerelease = true }
+"0.17.1-nightly.20260607.cef26a86a" = { created_at = 2026-06-07T00:41:47.053Z, prerelease = true }
+"0.17.1-nightly.20260608.aea34fa2c" = { created_at = 2026-06-08T00:43:29.220Z, prerelease = true }
+"0.17.1" = { created_at = 2026-06-03T11:58:05.299Z }
+"0.18.0-preview.0" = { created_at = 2026-06-09T03:46:55.615Z, prerelease = true }
+"0.18.0-preview.1" = { created_at = 2026-06-09T07:10:41.927Z, prerelease = true }
+"0.18.0-preview.2" = { created_at = 2026-06-11T07:50:35.034Z, prerelease = true }
+"0.18.0" = { created_at = 2026-06-12T14:41:21.102Z }
+"0.18.1-nightly.20260616.a68b2e1e7" = { created_at = 2026-06-16T00:59:23.370Z, prerelease = true }
+"0.18.1-preview.0" = { created_at = 2026-06-16T02:52:12.992Z, prerelease = true }
+"0.18.1-preview.1" = { created_at = 2026-06-17T04:33:16.534Z, prerelease = true }
+"0.18.1" = { created_at = 2026-06-15T11:26:00.237Z }
+"0.18.2" = { created_at = 2026-06-17T11:34:10.962Z }
+"0.18.3-nightly.20260618.bc3e0b405" = { created_at = 2026-06-18T01:01:12.515Z, prerelease = true }
+"0.18.3-nightly.20260621.6b2f800ab" = { created_at = 2026-06-21T00:50:37.566Z, prerelease = true }
+"0.18.3-preview.0" = { created_at = 2026-06-17T15:31:14.747Z, prerelease = true }
+"0.18.3" = { created_at = 2026-06-17T16:27:48.570Z }
+"0.18.4-preview.0" = { created_at = 2026-06-20T08:44:08.816Z, prerelease = true }
+"0.18.4" = { created_at = 2026-06-20T09:37:30.853Z }
+"0.18.5-nightly.20260622.6bc3f853e" = { created_at = 2026-06-22T00:52:31.811Z, prerelease = true }
+"0.18.5-preview.0" = { created_at = 2026-06-24T00:57:52.808Z, prerelease = true }
+"0.18.5" = { created_at = 2026-06-21T13:06:03.959Z }
+"0.19.0" = { created_at = 2026-06-23T03:26:58.848Z }
+"0.19.1-nightly.20260624.a234860a4" = { created_at = 2026-06-24T00:51:46.590Z, prerelease = true }
+"0.19.1" = { created_at = 2026-06-23T09:22:00.652Z }
+"0.19.2-nightly.20260625.b2f11b735" = { created_at = 2026-06-25T00:59:36.892Z, prerelease = true }
+"0.19.2-nightly.20260627.d93bec905" = { created_at = 2026-06-27T00:52:36.640Z, prerelease = true }
+"0.19.2-nightly.20260628.714513df2" = { created_at = 2026-06-28T00:51:08.857Z, prerelease = true }
+"0.19.2-preview.0" = { created_at = 2026-06-24T12:55:07.807Z, prerelease = true }
+"0.19.2" = { created_at = 2026-06-24T13:54:46.722Z }
+"0.19.3-nightly.20260630.e00fe6a27" = { created_at = 2026-06-30T00:54:03.409Z, prerelease = true }
+"0.19.3-nightly.20260701.a974594d7" = { created_at = 2026-07-01T00:57:31.656Z, prerelease = true }
+"0.19.3" = { created_at = 2026-06-28T06:12:23.182Z }
+"0.19.4-nightly.20260702.46814e4f1" = { created_at = 2026-07-02T00:57:57.960Z, prerelease = true }
+"0.19.4" = { created_at = 2026-07-01T13:08:25.554Z }
+"0.19.5-nightly.20260703.b16baf1ff" = { created_at = 2026-07-03T00:47:00.403Z, prerelease = true }
+"0.19.5" = { created_at = 2026-07-02T13:35:55.255Z }
+"0.19.6-nightly.20260704.5dc2e1501" = { created_at = 2026-07-04T00:47:54.734Z, prerelease = true }
+"0.19.6-nightly.20260705.015ee4248" = { created_at = 2026-07-05T00:48:22.355Z, prerelease = true }
+"0.19.6-nightly.20260706.47f62a466" = { created_at = 2026-07-06T00:48:50.451Z, prerelease = true }
+"0.19.6-nightly.20260707.bcdb44c5d" = { created_at = 2026-07-07T00:50:52.326Z, prerelease = true }
+"0.19.6-preview.0" = { created_at = 2026-07-08T00:49:53.192Z, prerelease = true }
+"0.19.6" = { created_at = 2026-07-03T16:36:49.305Z }
+"0.19.7-nightly.20260708.394c1a289" = { created_at = 2026-07-08T00:48:49.905Z, prerelease = true }
+"0.19.7" = { created_at = 2026-07-07T17:21:52.490Z }
+"0.19.8-nightly.20260710.205430235" = { created_at = 2026-07-10T00:51:16.937Z, prerelease = true }
+"0.19.8-nightly.20260711.0ef3a76bd" = { created_at = 2026-07-11T00:42:17.341Z, prerelease = true }
+"0.19.8" = { created_at = 2026-07-08T15:29:36.872Z }
+"0.19.9-nightly.20260714.9dd8389eb" = { created_at = 2026-07-14T00:46:37.194Z, prerelease = true }
+"0.19.9-preview.0" = { created_at = 2026-07-15T00:50:21.038Z, prerelease = true }
+"0.19.9" = { created_at = 2026-07-10T19:39:36.569Z }
+"0.19.10-nightly.20260715.c538bd70d" = { created_at = 2026-07-15T00:39:44.908Z, prerelease = true }
+"0.19.10-nightly.20260716.506ce0a1a" = { created_at = 2026-07-16T00:49:38.860Z, prerelease = true }
+"0.19.10" = { created_at = 2026-07-14T05:03:54.633Z }
+"0.19.11-nightly.20260717.f8e6e8931" = { created_at = 2026-07-17T00:43:05.015Z, prerelease = true }
+"0.19.11-nightly.20260718.767a32484" = { created_at = 2026-07-18T00:51:04.898Z, prerelease = true }
+"0.19.11" = { created_at = 2026-07-16T14:22:10.878Z }
+"0.19.12-nightly.20260719.86ad532de" = { created_at = 2026-07-19T00:51:34.466Z, prerelease = true }
+"0.19.12-preview.0" = { created_at = 2026-07-18T12:39:01.194Z, prerelease = true }
+"0.19.12" = { created_at = 2026-07-18T14:36:53.296Z }
+"0.20.0-nightly.20260720.0c271659d" = { created_at = 2026-07-20T00:52:13.241Z, prerelease = true }
+"0.20.0-nightly.20260721.cda0e0348" = { created_at = 2026-07-21T00:53:37.417Z, prerelease = true }
+"0.20.0-nightly.20260722.b98306b7e" = { created_at = 2026-07-22T00:52:17.017Z, prerelease = true }
+"0.20.0-preview.0" = { created_at = 2026-07-22T00:53:17.697Z, prerelease = true }
+"0.20.0" = { created_at = 2026-07-19T07:27:15.501Z }
+"0.20.1-jobbench-claude-prompt.0" = { created_at = 2026-07-20T12:03:27.172Z, prerelease = true }
+"0.20.1-nightly.20260724.7d17c44a3" = { created_at = 2026-07-24T00:49:34.064Z, prerelease = true }
+"0.20.1-preview.7215" = { created_at = 2026-07-19T09:14:03.184Z, prerelease = true }
+"0.20.1" = { created_at = 2026-07-21T16:49:57.960Z }
+"0.20.2-gdpval-vl-agent.0" = { created_at = 2026-07-22T07:35:48.581Z, prerelease = true }
+"0.20.2-gdpval-vl-agent.1" = { created_at = 2026-07-22T08:20:14.708Z, prerelease = true }
+"0.20.2-gdpval-vl-bridge.0" = { created_at = 2026-07-22T07:36:05.413Z, prerelease = true }
+"0.20.2-gdpval-vl-bridge.1" = { created_at = 2026-07-22T08:19:50.204Z, prerelease = true }
+"0.20.2-gdpval-vl-bridge.2" = { created_at = 2026-07-23T03:27:03.458Z, prerelease = true }
+"0.20.2-gdpval-vl-bridge.3" = { created_at = 2026-07-23T03:57:32.377Z, prerelease = true }
+"0.20.2-gdpval-vl-request-route.0" = { created_at = 2026-07-23T04:54:53.540Z, prerelease = true }
+"0.20.2-gdpval-vl-request-route.1" = { created_at = 2026-07-23T05:15:42.828Z, prerelease = true }
+"0.20.2-gdpval-vl-tool.0" = { created_at = 2026-07-23T04:56:34.545Z, prerelease = true }
+"0.20.2-gdpval-vl-tool.1" = { created_at = 2026-07-23T05:15:53.794Z, prerelease = true }
+"0.20.2-headless-image-routing.0" = { created_at = 2026-07-22T08:58:30.085Z, prerelease = true }
+"0.20.2-headless-image-routing.1" = { created_at = 2026-07-23T02:50:03.887Z, prerelease = true }
+"0.20.2-jobbench-no-todo-write.0" = { created_at = 2026-07-22T02:07:42.887Z, prerelease = true }
+"0.21.0-nightly.20260725.1183a4c82" = { created_at = 2026-07-25T00:56:01.087Z, prerelease = true }
+"0.21.0-nightly.20260726.9d19eafa9" = { created_at = 2026-07-26T00:56:17.395Z, prerelease = true }
+"0.21.0-nightly.20260727.c003e1718" = { created_at = 2026-07-27T00:49:11.116Z, prerelease = true }
+"0.21.0-nightly.20260729.0c0ca5fed" = { created_at = 2026-07-29T00:51:33.831Z, prerelease = true }
+"0.21.0-preview.0" = { created_at = 2026-07-29T00:56:14.235Z, prerelease = true }
+"0.21.0" = { created_at = 2026-07-24T13:29:57.986Z }
+"0.21.1-nightly.20260730.1643a6c9a" = { created_at = 2026-07-30T01:03:23.189Z, prerelease = true }
+"0.21.1-simplify-system-prompt.0" = { created_at = 2026-07-25T03:55:48.409Z, prerelease = true }
+"0.21.1" = { created_at = 2026-07-28T17:49:23.802Z }

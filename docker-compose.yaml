@@ -12,6 +12,14 @@ services:
       - "8000:8000"
     volumes:
       - ./:/root/workspace
+    # `uv sync` takes several seconds before uvicorn binds; without this the invoker's
+    # first request gets Connection refused and mise falls back to api.github.com.
+    # Pure TCP connect, so the check never proxies to upstream.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8000"]
+      interval: 1s
+      timeout: 2s
+      retries: 30
 
   invoker-arm64:
     build:
@@ -30,23 +38,25 @@ services:
     environment:
       MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
     depends_on:
-      - recorder
-  # invoker-amd64:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   platform: linux/amd64
-  #   init: true
-  #   command: /root/workspace/invoker/main.sh
-  #   working_dir: /root/workspace/invoker/
-  #   volumes:
-  #     - ./:/root/workspace
-  #     - ./dir_cache/amd64/cache:/root/.cache/mise
-  #     - ./dir_cache/amd64/config:/root/.config/mise
-  #     - ./dir_cache/amd64/data:/root/.local/share/mise
-  #     - ./dir_cache/amd64/shims:/root/.local/share/mise/shims
-  #     - ./dir_cache/amd64/state:/root/.local/state/mise
-  #   environment:
-  #     MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
-  #   depends_on:
-  #     - recorder
+      recorder:
+        condition: service_healthy
+  invoker-amd64:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    init: true
+    command: /root/workspace/invoker/main.sh
+    working_dir: /root/workspace/invoker/
+    volumes:
+      - ./:/root/workspace
+      - ./dir_cache/amd64/cache:/root/.cache/mise
+      - ./dir_cache/amd64/config:/root/.config/mise
+      - ./dir_cache/amd64/data:/root/.local/share/mise
+      - ./dir_cache/amd64/shims:/root/.local/share/mise/shims
+      - ./dir_cache/amd64/state:/root/.local/state/mise
+    environment:
+      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
+    depends_on:
+      recorder:
+        condition: service_healthy

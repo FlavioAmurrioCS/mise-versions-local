@@ -36,10 +36,13 @@ repo at `/root/workspace`:
     repo root. So `/data/fzf.toml` → `./data/fzf.toml`, `/api/github/repos/...` →
     `./api/github/repos/...`. The three top-level mirror roots are `data/`, `tools/`, `api/`.
   - Caching is **HTTP-native**: the stored `etag` is replayed as `If-None-Match`, and a
-    `304` is rewritten to `200` with the on-disk body. `date` and `cf-ray` are stripped from
-    the stored headers so re-recordings stay diff-clean.
+    `304` is rewritten to `200` with the on-disk body. On a `304` the stored headers are
+    *merged* with the old ones — a `304` omits `content-type`, so overwriting would lose it.
   - If upstream errors and a cached body exists, it serves that body as `200` (offline
     resilience).
+  - Waits for a TCP healthcheck before the invoker starts; `uv sync` delays the bind by
+    several seconds, and a plain `depends_on` let mise hit a refused connection and silently
+    fall back to `api.github.com`.
 - **`invoker-arm64`** (`invoker/main.sh`) — installs mise from `mise.run`, then, for each
   entry in the `tools=(...)` array, installs the latest `number_of_versions` versions
   resolved via `mise ls-remote`. It is pointed at the recorder purely by the
@@ -50,14 +53,42 @@ repo at `/root/workspace`:
   - An `invoker-amd64` service is commented out in `docker-compose.yaml`. Cross-arch matters
     only for `/api/github/.../attestations/<digest>`; release metadata is arch-independent.
 
-Both `dir_cache/` and the mirror roots (`data/`, `tools/`, `api/`) are gitignored **and**
-dockerignored — the recordings are build outputs, not sources.
+## The recordings are committed source
+
+The mirror roots (`data/`, `tools/`, `api/`) are **committed**, because the end goal is to
+serve this tree from **GitHub Pages**. `dir_cache/` stays gitignored; all four stay
+dockerignored (they only bloat the build context — the recorder writes via the bind mount,
+not the image).
+
+Two invariants follow, and they are why the header handling looks the way it does:
+
+- **The body on disk is canonical.** On Pages, GitHub sets the response headers, so the file
+  bytes are the only thing we control. The `.meta` file exists *solely* for the recorder's
+  own `If-None-Match` revalidation.
+- **`.meta` must be diff-stable.** Only four headers are stored (`STORED_HEADERS`:
+  `cache-control`, `content-type`, `etag`, `last-modified`). Volatile CDN headers (`age`,
+  `cf-cache-status`, `cf-ray`, `date`) would otherwise dirty every file on every re-record.
+
+The recorder sends `Accept-Encoding: identity` upstream. This is load-bearing twice over:
+httpx would otherwise transparently decompress the body while leaving `content-encoding:
+gzip` on the headers (serving plaintext labelled as gzip — mise fails with `Invalid gzip
+header` and falls back to `api.github.com`), and Cloudflare returns a *weak* etag
+(`W/"..."`) for a gzipped representation versus a strong one otherwise, which made the
+stored etag flip-flop between re-records.
 
 ## Commands
 
 ```bash
-# Full record run: brings up the recorder, then the invoker installs tools through it
-docker compose up --build
+# Full record run: brings up the recorder, then the invoker installs tools through it.
+# --abort-on-container-exit is required to get your shell back: the invoker exits when it
+# finishes, but the recorder is `restart: unless-stopped`, so a bare `up` stays attached
+# forever. --force-recreate is required after editing recorder_server.py: the code arrives
+# by bind mount, so an unchanged Dockerfile means `--build` reuses the running container
+# with the old module still loaded, and you silently test stale code.
+docker compose up --build --force-recreate --abort-on-container-exit
+
+# Recorder only, detached (then `docker compose logs -f recorder`; finish with `down`)
+docker compose up -d recorder
 
 # Reset — DESTRUCTIVE: rm -rf's dir_cache/* and the data/ tools/ api/ mirrors, then recreates
 ./create-dirs.sh
