@@ -8,3 +8,4 @@ mise-versions-local
 # tools/
 # api/
 .venv
+uv.lock
