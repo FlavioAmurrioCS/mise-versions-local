@@ -5,7 +5,8 @@ export PATH="$HOME/.local/bin:$PATH"
 
 ~/.local/bin/mise --version || exit 1
 
-number_of_versions=3
+number_of_versions=5
+export MISE_MINIMUM_RELEASE_AGE=0h
 
 tools=(
     docker-cli
@@ -43,4 +44,35 @@ for tool in "${tools[@]}"; do
     while read -r version; do
         mise install "${ltool}@${version}"
     done < <(mise ls-remote "${tool}" | tail -n "${number_of_versions}")
+done
+
+tools=(
+    docker-cli@latest
+    python@latest
+    python@latest
+    python@latest
+    python@latest
+    python@latest
+    java@latest
+    java@latest
+    java@latest
+    java@latest
+    node@latest
+    node@latest
+    fzf@latest
+    neovim@latest
+    uv@latest
+    pipx:pipenv@latest
+    pre-commit@latest
+    pipx:pre-commit@latest
+    go@latest
+    docker-compose@latest
+    github:docker/buildx@latest
+    github:docker/docker-credential-helpers@latest
+    go:github.com/dolmen-go/docker-list-context@latest
+    dive@latest
+)
+
+for tool in "${tools[@]}"; do
+    mise install "${tool}"
 done
