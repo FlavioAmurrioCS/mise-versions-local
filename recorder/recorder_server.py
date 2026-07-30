@@ -61,7 +61,7 @@ async def read_rest_of_path1(file_path: str, request: Request) -> Response:
 
 @app.get(PATH)
 async def read_rest_of_path(file_path: str, request: Request) -> Response:
-    path = file_path.rstrip("/")
+    path = os.path.join("mise-versions.jdx.dev", file_path.rstrip("/"))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     meta_file = path + ".meta"
     old_headers: dict[str, str] = {}
