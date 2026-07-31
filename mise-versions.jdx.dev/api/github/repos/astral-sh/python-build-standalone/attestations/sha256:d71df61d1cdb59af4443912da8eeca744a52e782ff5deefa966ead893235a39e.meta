@@ -1,5 +1,4 @@
 {
-    "cache-control": "public, max-age=7200, s-maxage=3600, stale-while-revalidate=86400",
-    "content-type": "application/json",
-    "last-modified": "Mon, 27 Jul 2026 08:56:51 GMT"
+    "cache-control": "public, max-age=600, s-maxage=31536000, immutable",
+    "content-type": "application/json"
 }

@@ -11,13 +11,9 @@ directories=(
     ./dir_cache/amd64/state
 )
 
-mirrored_directories=(
-    ./data
-    ./tools
-    ./api
-)
-
 rm -rf "${directories[@]}"
-rm -rf "${mirrored_directories[@]}"
 
-mkdir -p "${directories[@]}" "${mirrored_directories[@]}"
+
+
+
+mkdir -p "${directories[@]}"
