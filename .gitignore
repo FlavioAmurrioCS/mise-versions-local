@@ -1,6 +1,7 @@
 .venv
 uv.lock
 dir_cache
+install_*.txt
 
 # data/, tools/ and api/ are deliberately NOT ignored -- they are the recorded mirror
 # served by GitHub Pages, so they must be committed.

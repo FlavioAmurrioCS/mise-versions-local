@@ -12,6 +12,8 @@ services:
       - "8000:8000"
     volumes:
       - ./:/root/workspace
+    environment:
+      MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN}
     # `uv sync` takes several seconds before uvicorn binds; without this the invoker's
     # first request gets Connection refused and mise falls back to api.github.com.
     # Pure TCP connect, so the check never proxies to upstream.
@@ -36,7 +38,7 @@ services:
       - ./dir_cache/arm64/data:/root/.local/share/mise
       - ./dir_cache/arm64/state:/root/.local/state/mise
     environment:
-      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
+      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000/mise-versions.jdx.dev", "https://api.github.com" : "http://recorder:8000/api.github.com" }'
     depends_on:
       recorder:
         condition: service_healthy
@@ -56,7 +58,7 @@ services:
       - ./dir_cache/amd64/shims:/root/.local/share/mise/shims
       - ./dir_cache/amd64/state:/root/.local/state/mise
     environment:
-      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000" }'
+      MISE_URL_REPLACEMENTS: '{ "https://mise-versions.jdx.dev" : "http://recorder:8000/mise-versions.jdx.dev", "https://api.github.com" : "http://recorder:8000/api.github.com" }'
     depends_on:
       recorder:
         condition: service_healthy
